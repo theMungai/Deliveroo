@@ -1,11 +1,12 @@
+import './App.css';
 import { useState } from 'react'
-import './index.css'
+import Layout from './components/Layout'
 
 function App() {
 
   return (
     <>
-
+      <Layout/>
     </>
   )
 }
