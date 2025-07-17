@@ -1,13 +1,15 @@
-import './index.css';
-import { useState } from 'react'
-import Layout from './components/Layout'
-import Presbury from './components/Presbury';
+import './App.css';
+import Layout from './components/Layout';
+import Dashboard from './pages/Dashboard';
+
 
 function App() {
 
   return (
     <>
-      <Presbury/>
+      <Layout>
+        <Dashboard />
+      </Layout>
     </>
   )
 }
