@@ -1,15 +1,11 @@
-import './index.css';
-import { useState } from 'react'
-import Layout from './components/Layout'
-import Presbury from './components/Presbury';
+import ShipmentDetails from "./pages/ShippingDetails";
 
 function App() {
-
   return (
-    <>
-      <Presbury/>
-    </>
-  )
+    <div className="min-h-screen">
+      <ShipmentDetails />
+    </div>
+  );
 }
 
-export default App
+export default App;
