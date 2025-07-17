@@ -9,3 +9,7 @@ body {
   padding: 0;
   background-color: rgb(242, 245, 247);
 } 
+
+*{
+  /* outline: 2px solid red; */
+}
