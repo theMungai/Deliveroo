@@ -9,7 +9,7 @@ function Sidebar() {
   ];
 
   return (
-    <div className="basis-[16%] relative px-4 py-6 min-h-[100vh] bg-[#09090B] text-white">
+    <div className="basis-[16%] relative px-4 py-6 min-h-[100vh] bg-[#09090B] m-0 p-0 text-white">
       <h1 className="font-bold text-2xl mt-6 p-6">Deliveroo</h1>
 
       <nav>
