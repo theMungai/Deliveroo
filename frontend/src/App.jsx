@@ -1,13 +1,13 @@
 import './index.css';
 import { useState } from 'react'
 import Layout from './components/Layout'
-import Presbury from './components/Presbury';
+import LandingPage from './pages/LandingPage'
 
 function App() {
 
   return (
     <>
-      <Presbury/>
+    <LandingPage/> 
     </>
   )
 }
