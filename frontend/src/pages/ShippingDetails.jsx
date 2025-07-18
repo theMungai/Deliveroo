@@ -16,12 +16,15 @@ import {
 import {motion, AnimatePresence } from "framer-motion";
 
 export default function ShippingDetails() {
+  /* ---------- Sidebar toggle (mobile future-proof; hidden for now) ---------- */
   const [isSidebarOpen, setSidebarOpen] = useState(false);
 
+  /* ---------- Change Destination Modal State ---------- */
   const [isChangeModalOpen, setChangeModalOpen] = useState(false);
   const [newDestination, setNewDestination] = useState("");
   const [destTouched, setDestTouched] = useState(false);
 
+  /* Mock saved addresses for dropdown */
   const savedAddresses = [
     "123 Main St, Nairobi",
     "1 Infinite Loop, Cupertino",
@@ -36,8 +39,10 @@ export default function ShippingDetails() {
       : "";
   const isDestValid = destError === "";
 
+  /* ---------- Cancel Order Modal State ---------- */
   const [isCancelModalOpen, setCancelModalOpen] = useState(false);
 
+  /* ---------- Refs for focus mgmt ---------- */
   const changeInputRef = useRef(null);
   const cancelNoBtnRef = useRef(null);
 
@@ -53,29 +58,32 @@ export default function ShippingDetails() {
     }
   }, [isCancelModalOpen]);
 
+  /* ---------- Handlers ---------- */
   function handleSaveDestination() {
     if (!isDestValid) {
       setDestTouched(true);
       return;
     }
     console.log("New destination submitted:", newDestination.trim());
-
+    // TODO: call API
     setChangeModalOpen(false);
     setDestTouched(false);
   }
 
   function handleConfirmCancel() {
     console.log("Order canceled");
-
+    // TODO: call API
     setCancelModalOpen(false);
   }
 
+  /* ---------- Demo data (replace w/ props or fetch) ---------- */
   const routeUpdates = [
     { status: "Update", detail: "Left Mountain View Facility", date: "2024-07-29T10:00:00Z" },
     { status: "Update", detail: "Arrived at San Jose sorting center", date: "2024-07-29T14:30:00Z" },
     { status: "Delivered (Est.)", detail: "1 Infinite Loop, Cupertino, CA" },
   ];
 
+  /* Shipping info summary cards */
   const shippingInfo = [
     { icon: <ClipboardDocumentCheckIcon className="h-5 w-5" />, label: "Tracking #", value: "SWP001" },
     { icon: <ClipboardDocumentCheckIcon className="h-5 w-5" />, label: "Status", value: "In Transit" },
@@ -87,7 +95,7 @@ export default function ShippingDetails() {
 
   return (
     <div className="flex h-screen font-sans bg-gray-100 overflow-hidden">
-      {/* Sidebar for larger screens */}
+      {/* ---------- Sidebar (always full height) ---------- */}
       <aside className="hidden md:flex w-64 bg-gray-900 text-white flex-col justify-between h-full">
         <div>
           <div className="p-6 text-2xl font-bold">Deliveroo</div>
@@ -102,11 +110,12 @@ export default function ShippingDetails() {
         </div>
       </aside>
 
+      {/* ---------- Main Column (scrollable) ---------- */}
       <div className="flex-1 flex flex-col h-full">
         {/* Header */}
-        <header className="flex justify-between items-center bg-white px-4 py-4 shadow-sm md:px-6 shrink-0">
+        <header className="flex justify-between items-center bg-white px-4 md:px-6 py-4 shadow shrink-0">
           <div className="flex items-center gap-4">
-            {/* Mobile menu button */}
+            {/* Hamburger (future) */}
             <button
               className="md:hidden text-gray-600"
               onClick={() => setSidebarOpen(true)}
@@ -130,10 +139,10 @@ export default function ShippingDetails() {
           />
         </header>
 
-        {/* Main content */}
-        <main className="flex-1 overflow-y-auto p-4 space-y-6 md:p-6">
-          {/* Header section with buttons */}
-          <div className="flex flex-col justify-between items-start gap-4 md:flex-row md:items-center">
+        {/* Scrollable main content */}
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
+          {/* Title + Top Action Buttons */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
               <h2 className="text-2xl font-bold">Shipment Details</h2>
               <p className="text-gray-600 font-medium">Tracking ID: SWP001</p>
@@ -156,8 +165,8 @@ export default function ShippingDetails() {
             </div>
           </div>
 
-          {/* Map and Route Details */}
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          {/* Map + Route Details */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Map */}
             <div className="lg:col-span-2">
               <div className="flex h-64 items-center justify-center rounded-lg border bg-gray-200 md:h-72">
@@ -166,8 +175,8 @@ export default function ShippingDetails() {
             </div>
 
             {/* Route Details */}
-            <div className="rounded-lg bg-white p-4 shadow-sm">
-              <h3 className="mb-4 text-lg font-bold">Route Details</h3>
+            <div className="bg-white rounded-lg shadow p-4">
+              <h3 className="font-bold text-lg mb-4">Route Details</h3>
               <ul className="space-y-4">
                 {routeUpdates.map((item, index) => (
                   <li key={index} className="flex items-start gap-2">
@@ -191,7 +200,7 @@ export default function ShippingDetails() {
             </div>
           </div>
 
-          {/* Shipping Info */}
+          
           <div>
             <h3 className="mb-4 text-lg font-bold">Shipping Info</h3>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -208,7 +217,7 @@ export default function ShippingDetails() {
         </main>
       </div>
 
-      {/* Mobile Sidebar Modal */}
+      {/* ---------- Mobile Sidebar Drawer (optional; appears when opened) ---------- */}
       <AnimatePresence>
         {isSidebarOpen && (
           <ModalOverlay onClose={() => setSidebarOpen(false)}>
@@ -235,7 +244,7 @@ export default function ShippingDetails() {
         )}
       </AnimatePresence>
 
-      {/* Change Destination Modal */}
+      {/* ---------- Change Destination Modal ---------- */}
       <AnimatePresence>
         {isChangeModalOpen && (
           <ModalOverlay onClose={() => setChangeModalOpen(false)}>
@@ -307,7 +316,7 @@ export default function ShippingDetails() {
         )}
       </AnimatePresence>
 
-      {/* Cancel Order Modal */}
+      {/* ---------- Cancel Order Modal ---------- */}
       <AnimatePresence>
         {isCancelModalOpen && (
           <ModalOverlay onClose={() => setCancelModalOpen(false)}>
@@ -344,6 +353,8 @@ export default function ShippingDetails() {
     </div>
   );
 }
+
+/* ---------- Small Reusable Bits ---------- */
 
 function SidebarItem({ icon, text }) {
   return (
@@ -384,6 +395,7 @@ function ModalOverlay({ children, onClose }) {
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
       onClick={onClose}
     >
+      {/* stop click bubbling so inner clicks don't close */}
       <div onClick={(e) => e.stopPropagation()}>{children}</div>
     </motion.div>
   );
