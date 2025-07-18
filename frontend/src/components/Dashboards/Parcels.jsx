@@ -1,0 +1,43 @@
+export const parcels = [
+  {
+    id: "SWP001",
+    status: "In Transit",
+    recipient: "Jesse Gitau",
+    destination: "123, Nairobi, Kenya",
+    weight: "2.5",
+    deliveryDate: "7/8/2025",
+  },
+  {
+    id: "SWP002",
+    status: "Delivered",
+    recipient: "Zuhura Ahmed",
+    destination: "456, Mombasa, Kenya",
+    weight: "3.2",
+    deliveryDate: "8/8/2025",
+  },
+  {
+    id: "SWP003",
+    status: "Delayed",
+    recipient: "Nick Musyoki",
+    destination: "11, Nakuru, Kenya",
+    weight: "3.2",
+    deliveryDate: "8/8/2025",
+  },
+  {
+    id: "SWP004",
+    status: "Canceled",
+    recipient: " Emily Atieno",
+    destination: "128, Kisumu, Kenya",
+    weight: "3.2",
+    deliveryDate: "8/8/2025",
+  },
+  {
+    id: "SWP005",
+    status: "Pending",
+    recipient: "Irene Cherono",
+    destination: "456, Eldoret, Kenya",
+    weight: "3.2",
+    deliveryDate: "8/8/2025",
+  }
+];
+
