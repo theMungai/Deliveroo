@@ -1,10 +1,9 @@
 import React from "react";
-import { Grid, PlusCircle, User, LogOut } from "react-feather";
+import { Grid, User, LogOut } from "react-feather";
 
-function Sidebar() {
+const AdminSidebar = () => {
   const navItems = [
     { label: "Dashboard", icon: Grid },
-    { label: "New Order", icon: PlusCircle },
     { label: "Profile", icon: User },
   ];
 
@@ -34,6 +33,6 @@ function Sidebar() {
       </button>
     </div>
   );
-}
+};
 
-export default Sidebar;
+export default AdminSidebar;
