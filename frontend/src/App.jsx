@@ -1,3 +1,4 @@
+
 import './App.css';
 import './index.css';
 
@@ -8,6 +9,7 @@ import User_SignUp from './pages/UserLogin_SignUp.jsx';
 import Admin_SignUp from './pages/AdminLogin_SignUp.jsx';
 import Profile from './pages/Profile.jsx';
 import LandingPage from './pages/LandingPage.jsx';
+import ShippingDetails from './pages/ShippingDetails.jsx';
 
 
 function App() {
@@ -16,7 +18,7 @@ function App() {
 
       {/* Optional wrapper div if needed */}
       <div className="bg-gray-100 font-impact min-h-screen">
-        <Profile />
+        <Dashboard />
       </div>
 
     </>
