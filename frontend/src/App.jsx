@@ -18,7 +18,9 @@ function App() {
 
       {/* Optional wrapper div if needed */}
       <div className="bg-gray-100 font-impact min-h-screen">
-        <LandingPage />
+        <Layout>
+          <ShippingDetails />
+        </Layout>
       </div>
 
     </>

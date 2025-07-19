@@ -1,5 +1,6 @@
 import React from "react";
 import { Grid, PlusCircle, User, LogOut } from "react-feather";
+import Cube from '../../assets/cube.png'
 
 function Sidebar() {
   const navItems = [
@@ -10,7 +11,11 @@ function Sidebar() {
 
   return (
     <div className="basis-[16%] relative px-4 py-6 min-h-[100vh] bg-[#09090B] text-white">
-      <h1 className="font-bold text-2xl mt-6 p-6">Deliveroo</h1>
+      <div className="flex items-center mb-6 gap-x-2.5">
+        <img src={Cube} alt="" />
+        <h1 className="font-bold text-2xl">Deliveroo</h1>
+      </div>
+      
 
       <nav>
         <ul>
