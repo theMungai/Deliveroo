@@ -26,7 +26,7 @@ function Navbar() {
 
 
   return (
-    <div className="flex justify-between items-center fixed top-0 w-full bg-white shadow">
+    <div className="flex justify-between items-center fixed z-20 top-0 w-full bg-white shadow">
       <div className="logo-container cursor-pointer">
         <img src={Logo} alt="Deliveroo logo" />
       </div>

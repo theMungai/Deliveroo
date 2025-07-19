@@ -19,7 +19,7 @@ function Services(){
         <p className='font-[500] text-[16px] mb-12'>We offer a range services to meet your needs</p>
         <div className='flex w-[80%] mx-auto justify-between gap-x-10'>
             <Service icon={faTruckFast} serviceName="Fast Delivery" description="Get your packages delivered in the shortest time possible."/>
-            <Service icon={faCubes} serviceName="Secure Packaging<" description="We ensure your packages are handles with utmost care."/>
+            <Service icon={faCubes} serviceName="Secure Packaging" description="We ensure your packages are handles with utmost care."/>
             <Service icon={faHeadset} serviceName="24/7 Support" description="Our team is always here to help you with any queries."/>
 
         </div>
