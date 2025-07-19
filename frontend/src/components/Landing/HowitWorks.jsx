@@ -15,7 +15,7 @@ function Step({icon, title, description}){
 
 function HowitWorks() {
   return (
-    <div className='mb-[105px] bg-white px-[130px] py-[110px] text-center'>
+    <div className=' bg-white px-[130px] py-[110px] text-center'>
         <h1 className='text-[28px] font-[700] mb-3'>How it Works</h1>
         <p className='font-[500] text-[16px] mb-12'>Sending a parcel is as easy as 1,2,3</p>
         <div className='flex justify-between w-[80%] mx-auto'>
