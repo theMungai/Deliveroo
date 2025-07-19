@@ -1,10 +1,13 @@
 import React from 'react'
 import OrderForm from '../components/OrderForm'
+import Layout from '../components/Layout'
 
 const NewOrder = () => {
   return (
     <div>
-        <OrderForm />
+        <Layout>
+          <OrderForm />
+        </Layout>
     </div>
   )
 }

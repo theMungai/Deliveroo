@@ -1,35 +1,42 @@
 import React from "react";
 import { Grid, User, LogOut } from "react-feather";
+import { Link } from "react-router-dom";
+import Logo from '../assets/Logo.png'
 
 const AdminSidebar = () => {
   const navItems = [
-    { label: "Dashboard", icon: Grid },
-    { label: "Profile", icon: User },
+    { to: "/admin", label: "Dashboard", icon: Grid },
+    { to: "admin", label: "Profile", icon: User },
   ];
 
   return (
     <div className="basis-[16%] relative px-4 py-6 min-h-[100vh] bg-[#09090B] text-white">
-      <h1 className="font-bold text-2xl mt-6 p-6">Deliveroo</h1>
-
+      <Link to='/admin'>
+        <img src={Logo} alt="" />
+      </Link>
       <nav>
         <ul>
           {navItems.map(({ label, icon: Icon }) => {
             return (
               <li
                 key={label}
-                className="cursor-pointer hover:bg-[#18181A] flex items-center space-x-2 p-2 mb-5"
+                className="cursor-pointer hover:bg-[#18181A] p-2 mb-5"
               >
-                <Icon />
-                <span>{label}</span>
+                <Link to="/admin" className="flex items-center space-x-2">
+                  <Icon />
+                  <span>{label}</span>
+                </Link>
               </li>
             );
           })}
         </ul>
       </nav>
 
-      <button className="text-sm hover:bg-[#18181A] w-[90%] cursor-pointer absolute bottom-5 flex items-center space-x-2 p-2">
-        <LogOut className="mx-3" />
-        Logout
+      <button className="text-sm hover:bg-[#18181A] w-[90%] cursor-pointer absolute bottom-5 p-2">
+        <Link to="/admin-signup" className="flex items-center space-x-2">
+          <LogOut className="mx-3" />
+          Logout
+        </Link>
       </button>
     </div>
   );

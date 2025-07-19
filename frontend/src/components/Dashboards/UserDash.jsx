@@ -1,5 +1,6 @@
 import React from "react";
 import { PlusCircle, Calendar, Package, MapPin } from "react-feather";
+import { Link } from "react-router-dom";
 
 function Order({ parcelId, status, date, receiver, location, weight }) {
   let statusColor = "";
@@ -25,7 +26,9 @@ function Order({ parcelId, status, date, receiver, location, weight }) {
       <div className="flex justify-between ">
         <h1 className="text-black text-[18px] font-[500]">{parcelId}</h1>
         {statusColor && (
-          <span className={`py-1 px-2.5 rounded-[20px] cursor-pointer ${statusColor}`}>
+          <span
+            className={`py-1 px-2.5 rounded-[20px] cursor-pointer ${statusColor}`}
+          >
             {status}
           </span>
         )}
@@ -49,8 +52,7 @@ function Order({ parcelId, status, date, receiver, location, weight }) {
       </div>
 
       <button className="w-full py-2.5 bg-[#F9F9FA] cursor-pointer border-[0.8px] rounded-[6px] border-[#818181] hover:border-[#73C322] hover:text-[#73C322]">
-        {" "}
-        View Details
+        <Link to="/shipping-details">View Details</Link>
       </button>
     </div>
   );
@@ -61,9 +63,11 @@ function UserDash() {
     <div className="p-8">
       <div className="flex justify-between items-center mb-12 ">
         <h1 className="font-[800] text-[36px]">Your parcels</h1>
-        <button className="bg-[#73C322] text-white flex items-center gap-x-3 p-3 rounded-[8px] cursor-pointer">
-          <PlusCircle className="" />
-          Create New Order
+        <button className="bg-[#73C322] text-white  p-3 rounded-[8px] cursor-pointer">
+          <Link to='/new-order' className="flex items-center gap-x-3">
+            <PlusCircle className="" />
+            Create New Order
+          </Link>
         </button>
       </div>
 

@@ -6,7 +6,7 @@ import Footer from './common/Footer';
 const AdminLayout = ({children}) => {
   return (
     <>
-      <div className="flex w-full p-6">
+      <div className="flex w-full p-0">
         <AdminSidebar />
 
         <div className="basis-[84%]">

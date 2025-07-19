@@ -1,4 +1,4 @@
-import AuthForm from '../components/user-auth-form'; // No curly braces for default export
+import AuthForm from '../components/user-auth-form';
 
 export default function UserSignUp() {
   return (

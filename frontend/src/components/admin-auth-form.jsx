@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import logo from '../assets/Logo.png';
+import logo from "../assets/Logo.png";
+import { Link } from "react-router-dom";
 
 const Admin_AuthForm = () => {
   const [authType, setAuthType] = useState("login");
@@ -24,8 +25,10 @@ const Admin_AuthForm = () => {
   const validate = () => {
     const newErrors = {};
     if (authType === "signup") {
-      if (!formData.firstName.trim()) newErrors.firstName = "First name is required";
-      if (!formData.lastName.trim()) newErrors.lastName = "Last name is required";
+      if (!formData.firstName.trim())
+        newErrors.firstName = "First name is required";
+      if (!formData.lastName.trim())
+        newErrors.lastName = "Last name is required";
       if (formData.password !== formData.cpassword)
         newErrors.cpassword = "Passwords do not match";
     }
@@ -42,7 +45,9 @@ const Admin_AuthForm = () => {
       setErrors(validationErrors);
     } else {
       console.log("Submitted:", authType, formData);
-      alert(`${authType === "login" ? "Logged in" : "Signed up"} successfully!`);
+      alert(
+        `${authType === "login" ? "Logged in" : "Signed up"} successfully!`
+      );
 
       // Reset
       setFormData({
@@ -58,13 +63,8 @@ const Admin_AuthForm = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
       <div className="w-full max-w-sm bg-white shadow-md rounded-xl p-6">
-
         <div className="text-center mb-6">
-          <img
-            src={logo}
-            alt="Deliveroo"
-            className="w-24 mx-auto mb-2"
-          />
+          <img src={logo} alt="Deliveroo" className="w-24 mx-auto mb-2" />
           <h2 className="text-lg font-semibold text-slate-900">Admin Portal</h2>
           <p className="text-xs text-slate-600">
             Sign in or create an account for the Admin dashboard
@@ -102,7 +102,9 @@ const Admin_AuthForm = () => {
                   } rounded-md px-3 py-2 text-sm`}
                 />
                 {errors.firstName && (
-                  <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.firstName}
+                  </p>
                 )}
               </div>
               <div className="w-1/2">
@@ -177,7 +179,9 @@ const Admin_AuthForm = () => {
             type="submit"
             className="w-full py-2 px-4 rounded-md bg-lime-500 text-white text-sm font-semibold hover:bg-lime-600"
           >
-            {authType === "login" ? "Login" : "Create Account"}
+            <Link to="admin">
+              {authType === "login" ? "Login" : "Create Account"}
+            </Link>
           </button>
         </form>
       </div>

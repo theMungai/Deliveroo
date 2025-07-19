@@ -4,7 +4,7 @@ import { faTruckFast, faCubes, faHeadset } from "@fortawesome/free-solid-svg-ico
 
 function Service({icon, serviceName, description}){
     return(
-        <div className='bg-white shadow rounded-[10px] px-10 py-5'>
+        <div className='services bg-white shadow rounded-[10px] px-10 py-5'>
             <FontAwesomeIcon  icon={icon} className='text-[#73C322] text-3xl' />
             <h2 className='text-[18px] font-[700] my-3'>{serviceName}</h2>
             <p className='text-[16px] font-[500]'>{description}</p>

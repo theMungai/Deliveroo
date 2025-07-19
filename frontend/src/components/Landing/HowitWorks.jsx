@@ -6,7 +6,7 @@ import { Send } from 'react-feather'
 function Step({icon, title, description}){
     return(
         <div>
-            <div className='text-[#73C322] relative mb-6 text-3xl'>{icon}</div>
+            <div className='how-it-works text-[#73C322] relative mb-6 text-3xl'>{icon}</div>
             <h2 className='text-[18px] font-[700] mt-6 mb-3'>{title}</h2>
             <p className='text-[16px] font-[500]'>{description}</p>
         </div>
