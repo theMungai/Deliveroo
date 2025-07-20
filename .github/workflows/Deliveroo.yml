@@ -1,4 +1,4 @@
-name: Deliveroo CI/CD Pipeline
+name: Deliveroo CI/CD
 
 on:
   push:
@@ -10,9 +10,6 @@ jobs:
   backend:
     runs-on: ubuntu-latest
     name: Backend Build
-    defaults:
-      run:
-        working-directory: ./Backend
 
     steps:
       - name: Checkout code
@@ -23,7 +20,14 @@ jobs:
         with:
           python-version: 3.11
 
-      - name: Install Backend dependencies
+      - name: Check if backend exists
+        run: |
+          if [ ! -f "Backend/requirements.txt" ]; then
+            echo "No backend requirements found. Skipping backend build."
+            exit 0
+          fi
+
+      - name: Install backend dependencies
         run: |
           cd Backend
           pip install -r requirements.txt
@@ -34,9 +38,6 @@ jobs:
   frontend:
     runs-on: ubuntu-latest
     name: Frontend Build
-    defaults:
-      run:
-        working-directory: ./frontend
 
     steps:
       - name: Checkout code
@@ -45,7 +46,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 23
+          node-version: 18
 
       - name: Install frontend dependencies
         run: |
