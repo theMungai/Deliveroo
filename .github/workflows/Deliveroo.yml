@@ -1,0 +1,69 @@
+name: Deliveroo CI/CD
+
+on:
+  push:
+    branches: [main, Development]
+  pull_request:
+    branches: [main, Development]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    name: Backend Build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Check if backend exists
+        run: |
+          if [ ! -f "Backend/requirements.txt" ]; then
+            echo "No backend requirements found. Skipping backend build."
+            exit 0
+          fi
+
+      - name: Install backend dependencies
+        run: |
+          cd Backend
+          pip install -r requirements.txt
+
+      - name: (Optional) Backend Linting/Build Step
+        run: echo "Backend setup complete"
+
+  frontend:
+    runs-on: ubuntu-latest
+    name: Frontend Build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install frontend dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
+
+  deploy:
+    needs: [backend, frontend]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    name: Deploy (Render + Vercel)
+
+    steps:
+      - name: Trigger external deploy
+        run: echo "Code merged to main. Render and Vercel will auto-deploy from GitHub connection."
