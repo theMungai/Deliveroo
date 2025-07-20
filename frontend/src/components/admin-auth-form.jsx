@@ -71,15 +71,21 @@ const Admin_AuthForm = () => {
           </p>
         </div>
 
-        <div className="flex justify-between mb-4 border-b">
+        <div className="relative flex mb-4 bg-gray-100 p-1 rounded-lg">
+          {/* Sliding indicator */}
+          <div
+            className={`absolute top-1 bottom-1 w-1/2 rounded-[5px] bg-white shadow transition-transform duration-300 ease-in-out ${
+              authType === "signup" ? "translate-x-full" : "translate-x-0"
+            }`}
+          />
+
+          {/* Tab buttons */}
           {["login", "signup"].map((type) => (
             <button
               key={type}
               onClick={() => setAuthType(type)}
-              className={`w-1/2 py-2 text-sm font-medium ${
-                authType === type
-                  ? "border-b-2 border-blue-600 text-blue-600"
-                  : "text-slate-500"
+              className={`w-1/2 z-10 py-2 text-sm font-medium transition-colors duration-300 ${
+                authType === type ? "text-slate-900" : "text-slate-500"
               }`}
             >
               {type === "login" ? "Login" : "Sign Up"}
@@ -97,7 +103,7 @@ const Admin_AuthForm = () => {
                   placeholder="First Name"
                   value={formData.firstName}
                   onChange={handleChange}
-                  className={`w-full border ${
+                  className={`w-full border outline-0 ${
                     errors.firstName ? "border-red-500" : "border-gray-300"
                   } rounded-md px-3 py-2 text-sm`}
                 />
@@ -114,7 +120,7 @@ const Admin_AuthForm = () => {
                   placeholder="Last Name"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className={`w-full border ${
+                  className={`w-full border outline-0 ${
                     errors.lastName ? "border-red-500" : "border-gray-300"
                   } rounded-md px-3 py-2 text-sm`}
                 />
@@ -132,7 +138,7 @@ const Admin_AuthForm = () => {
               placeholder="Email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full border ${
+              className={`w-full border outline-0 ${
                 errors.email ? "border-red-500" : "border-gray-300"
               } rounded-md px-3 py-2 text-sm`}
             />
@@ -148,7 +154,7 @@ const Admin_AuthForm = () => {
               placeholder="Password"
               value={formData.password}
               onChange={handleChange}
-              className={`w-full border ${
+              className={`w-full border outline-0 ${
                 errors.password ? "border-red-500" : "border-gray-300"
               } rounded-md px-3 py-2 text-sm`}
             />
@@ -165,7 +171,7 @@ const Admin_AuthForm = () => {
                 placeholder="Confirm Password"
                 value={formData.cpassword}
                 onChange={handleChange}
-                className={`w-full border ${
+                className={`w-full border outline-0 ${
                   errors.cpassword ? "border-red-500" : "border-gray-300"
                 } rounded-md px-3 py-2 text-sm`}
               />
