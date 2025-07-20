@@ -4,7 +4,7 @@ import Layout from '../components/Layout'
 
 const NewOrder = () => {
   return (
-    <div>
+    <div className='relative h-screen min-h-screen overflow-y-auto'>
         <Layout>
           <OrderForm />
         </Layout>

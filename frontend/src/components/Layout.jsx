@@ -5,17 +5,22 @@ import Footer from "./common/Footer";
 
 function Layout({ children }) {
   return (
-    <>
-      <div className="flex w-full h-full p-0">
-        <Sidebar />
-        <div className="basis-[84%] h-full">
-          <Topbar />
+    <div className="flex w-full min-h-screen">
+      <Sidebar />
+      
+      <div className="flex flex-col basis-[84%] min-h-screen">
+        <Topbar />
+        
+        {/* Main content + grow */}
+        <main className="flex-grow">
           {children}
-        </div>
+        </main>
+
+        <Footer />
       </div>
-      <Footer />
-    </>
+    </div>
   );
 }
+
 
 export default Layout;

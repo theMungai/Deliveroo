@@ -6,7 +6,7 @@ function Dashboard(){
 
 
   return (
-    <div>
+    <div className='relative'>
       <Layout>
         <UserDash />
       </Layout>

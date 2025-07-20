@@ -126,7 +126,7 @@ export default function ShippingDetails() {
 
   return (
     <Layout>
-      <div className="flex h-screen font-sans bg-gray-100 overflow-hidden">
+      <div className="flex h-screen relative font-sans bg-gray-100 overflow-hidden">
         {/* ---------- Main Column (scrollable) ---------- */}
         <div className="flex-1 flex flex-col h-full">
           {/* Scrollable main content */}

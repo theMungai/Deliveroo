@@ -4,7 +4,7 @@ import AdminLayout from '../components/AdminLayout'
 
 const AdminDashboard = () => {
   return (
-    <div>
+    <div className='relative'>
         <AdminLayout>
           <AdminDash/>
         </AdminLayout>
