@@ -6,7 +6,6 @@ import Logo from '../assets/cube.png'
 const AdminSidebar = () => {
   const navItems = [
     { to: "/admin", label: "Dashboard", icon: Grid },
-    { to: "admin", label: "Profile", icon: User },
   ];
 
   return (
