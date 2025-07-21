@@ -1,7 +1,19 @@
-import React from "react";
-import { Truck } from "react-feather";
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTruckFast } from "@fortawesome/free-solid-svg-icons";
 
-const OrderForm = () => {
+function OrderForm() {
+  const [weight, setWeight] = useState("");
+
+  const calculatePrice = () => {
+    const weightValue = parseFloat(weight);
+    if (isNaN(weightValue) || weightValue <= 0) return 0;
+
+    if (weightValue <= 5) return 300;
+    else if (weightValue <= 15) return 500;
+    else if (weightValue <= 25) return 1000;
+    else return "Weight exceeds limit. Maximum allowed is 25kg.";
+  };
   return (
     <div className="rounded-[10px] bg-white border-[0.5px] border-[#d4d4d4cb] w-[55%] mx-auto my-5 px-10 py-6">
       <h1 className="font-[600] text-[28px] ">Create a New Parcel Order</h1>
@@ -10,7 +22,6 @@ const OrderForm = () => {
       </p>
 
       <form action="">
-        
         <div className="mb-8">
           <label htmlFor="recipient" className="">
             {" "}
@@ -29,39 +40,37 @@ const OrderForm = () => {
 
         <div className="flex items-center gap-x-8 justify-between ">
           <div className="mb-8 basis-1/2">
-          <label htmlFor="recipient" className="">
-            {" "}
-            Pickup Address
-            <input
-              className="block w-full bg-[#F9F9FA] border-[0.5px] border-[#d4d4d4cb] px-2.5 py-3 rounded-[8px] outline-0 mt-2"
-              type="text"
-              id="recipient"
-              placeholder="1600 Amphitheater Parkway, Mountain View, CA"
-            />
-            <p className="text-[14px] text-[#7a7a82]">
-              Where should we pick up the parcel from?
-            </p>
-          </label>
-        </div>
+            <label htmlFor="recipient" className="">
+              {" "}
+              Pickup Address
+              <input
+                className="block w-full bg-[#F9F9FA] border-[0.5px] border-[#d4d4d4cb] px-2.5 py-3 rounded-[8px] outline-0 mt-2"
+                type="text"
+                id="recipient"
+                placeholder="1600 Amphitheater Parkway, Mountain View, CA"
+              />
+              <p className="text-[14px] text-[#7a7a82]">
+                Where should we pick up the parcel from?
+              </p>
+            </label>
+          </div>
 
-        <div className="mb-8 basis-1/2">
-          <label htmlFor="recipient" className="">
-            {" "}
-            Destination Address
-            <input
-              className="block w-full bg-[#F9F9FA] border-[0.5px] border-[#d4d4d4cb] px-2.5 py-3 rounded-[8px] outline-0 mt-2"
-              type="text"
-              id="recipient"
-              placeholder="1 Infinite Loop, Cupertino, CA"
-            />
-            <p className="text-[14px] text-[#7a7a82]">
-              Where is the parcel going?
-            </p>
-          </label>
+          <div className="mb-8 basis-1/2">
+            <label htmlFor="recipient" className="">
+              {" "}
+              Destination Address
+              <input
+                className="block w-full bg-[#F9F9FA] border-[0.5px] border-[#d4d4d4cb] px-2.5 py-3 rounded-[8px] outline-0 mt-2"
+                type="text"
+                id="recipient"
+                placeholder="1 Infinite Loop, Cupertino, CA"
+              />
+              <p className="text-[14px] text-[#7a7a82]">
+                Where is the parcel going?
+              </p>
+            </label>
+          </div>
         </div>
-        </div>
-
-        
 
         <div className="mb-8">
           <label htmlFor="recipient" className="">
@@ -72,6 +81,8 @@ const OrderForm = () => {
               type="number"
               id="recipient"
               placeholder="1"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
             />
             <p className="text-[14px] text-[#7a7a82]">
               The weight of the parcel in kilograms.
@@ -85,8 +96,10 @@ const OrderForm = () => {
           </h2>
 
           <div className="flex gap-x-4">
-            <Truck color="#73C322" />
-            <h2 className="italic text-[18px] font-[700]">KShs. 1,000</h2>
+            <FontAwesomeIcon icon={faTruckFast} className="text-[#73C322]" />
+            <h2 className="italic text-[18px] font-[700]">
+              KShs. {calculatePrice()}
+            </h2>
           </div>
         </div>
 
@@ -96,6 +109,6 @@ const OrderForm = () => {
       </form>
     </div>
   );
-};
+}
 
 export default OrderForm;
