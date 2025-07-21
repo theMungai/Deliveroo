@@ -2,14 +2,14 @@
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 
-import MarkerClusterGroup from "react-leaflet-cluster";
+// import MarkerClusterGroup from "react-leaflet-cluster";
 import MapPin from "../assets/LocationPin.png";
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 
 import { useEffect } from "react";
 
-import L, { Icon, divIcon, point } from "leaflet";
+import L, { Icon} from "leaflet";
 import "leaflet-routing-machine"; // must come AFTER importing 'L'
 
 
@@ -21,15 +21,6 @@ const customIcon = new Icon({
   iconSize: [38, 38],
 });
 
-// ========================
-// 2. Custom Cluster Icon
-// ========================
-const createClusterCustomIcon = (cluster) =>
-  new divIcon({
-    html: `<span class="cluster-icon">${cluster.getChildCount()}</span>`,
-    className: "custom-marker-cluster",
-    iconSize: point(33, 33, true),
-  });
 
 // ========================
 // 3. Sample Markers for Testing
@@ -102,11 +93,7 @@ function ParcelMarker() {
       {/* Route Line */}
       <Routing from={parcelLocation} to={destination} />
 
-      {/* Marker Clusters */}
-      <MarkerClusterGroup
-        chunkedLoading
-        iconCreateFunction={createClusterCustomIcon}
-      >
+
         {markers.map((marker, index) => (
           <Marker
             key={`marker-${index}`}
@@ -124,7 +111,7 @@ function ParcelMarker() {
         <Marker key="hardcoded-2" position={[1.298, 36.813]} icon={customIcon}>
           <Popup>Backup Stop 2</Popup>
         </Marker>
-      </MarkerClusterGroup>
+  
     </MapContainer>
   );
 }
