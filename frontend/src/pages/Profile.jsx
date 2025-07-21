@@ -7,7 +7,7 @@ function Profile() {
   return (
     <>
       <Layout>
-        <div className="bg-white rounded-lg shadow-md p-8 max-w-4xl mx-auto my-8 grid grid-cols-1 md:grid-cols-2 gap-">
+        <div className="bg-white relative rounded-lg shadow-md p-8 max-w-4xl mx-auto my-8 grid grid-cols-1 md:grid-cols-2 gap-">
           <div>
             <h1 className="text-2xl font-semibold text-gray-800 mb-6">
               My Profile

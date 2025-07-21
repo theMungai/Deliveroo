@@ -11,7 +11,7 @@ function Sidebar() {
   ];
 
   return (
-    <div className="basis-[16%] relative px-4 py-6 min-h-[100vh] bg-[#09090B] text-white">
+    <div className="basis-[16%] relative px-4 py-6 h-full min-h-screen bg-[#09090B] text-white">
       <div className="mb-6 gap-x-2.5">
         <Link to="/dashboard" className="flex items-center">
           <img src={Cube} alt="Deliveroo logo" />

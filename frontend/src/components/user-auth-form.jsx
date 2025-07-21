@@ -61,7 +61,7 @@ const AuthForm = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
+    <div className="flex min-h-screen w-full items-center justify-center">
       <div className="w-full max-w-sm bg-white shadow-md rounded-xl p-6">
         {/* Logo and Title */}
         <div className="text-center mb-6">
@@ -72,16 +72,21 @@ const AuthForm = () => {
           </p>
         </div>
 
-        {/* Toggle Tabs */}
-        <div className="flex justify-between mb-4 border-b">
+        <div className="relative flex mb-4 bg-gray-100 p-1 rounded-lg">
+          {/* Sliding indicator */}
+          <div
+            className={`absolute top-1 bottom-1 w-1/2 rounded-[5px] bg-white shadow transition-transform duration-300 ease-in-out ${
+              authType === "signup" ? "translate-x-full" : "translate-x-0"
+            }`}
+          />
+
+          {/* Tab buttons */}
           {["login", "signup"].map((type) => (
             <button
               key={type}
               onClick={() => setAuthType(type)}
-              className={`w-1/2 py-2 text-sm font-medium ${
-                authType === type
-                  ? "border-b-2 border-blue-600 text-blue-600"
-                  : "text-slate-500"
+              className={`w-1/2 z-10 py-2 text-sm font-medium transition-colors duration-300 ${
+                authType === type ? "text-slate-900" : "text-slate-500"
               }`}
             >
               {type === "login" ? "Login" : "Sign Up"}
@@ -100,7 +105,7 @@ const AuthForm = () => {
                   placeholder="First Name"
                   value={formData.firstName}
                   onChange={handleChange}
-                  className={`w-full border ${
+                  className={`w-full border outline-0 ${
                     errors.firstName ? "border-red-500" : "border-gray-300"
                   } rounded-md px-3 py-2 text-sm`}
                 />
@@ -117,7 +122,7 @@ const AuthForm = () => {
                   placeholder="Last Name"
                   value={formData.lastName}
                   onChange={handleChange}
-                  className={`w-full border ${
+                  className={`w-full border outline-0 ${
                     errors.lastName ? "border-red-500" : "border-gray-300"
                   } rounded-md px-3 py-2 text-sm`}
                 />
@@ -135,7 +140,7 @@ const AuthForm = () => {
               placeholder="Email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full border ${
+              className={`w-full border outline-0 ${
                 errors.email ? "border-red-500" : "border-gray-300"
               } rounded-md px-3 py-2 text-sm`}
             />
@@ -151,7 +156,7 @@ const AuthForm = () => {
               placeholder="Password"
               value={formData.password}
               onChange={handleChange}
-              className={`w-full border ${
+              className={`w-full border outline-0 ${
                 errors.password ? "border-red-500" : "border-gray-300"
               } rounded-md px-3 py-2 text-sm`}
             />
@@ -168,7 +173,7 @@ const AuthForm = () => {
                 placeholder="Confirm Password"
                 value={formData.cpassword}
                 onChange={handleChange}
-                className={`w-full border ${
+                className={`w-full border outline-0 ${
                   errors.cpassword ? "border-red-500" : "border-gray-300"
                 } rounded-md px-3 py-2 text-sm`}
               />
@@ -182,7 +187,9 @@ const AuthForm = () => {
             type="submit"
             className="w-full py-2 px-4 rounded-md bg-lime-500 text-white text-sm font-semibold hover:bg-lime-600"
           >
-            <Link to='/dashboard'>{authType === "login" ? "Login" : "Create Account"}</Link>
+            <Link to="/dashboard">
+              {authType === "login" ? "Login" : "Create Account"}
+            </Link>
           </button>
         </form>
       </div>

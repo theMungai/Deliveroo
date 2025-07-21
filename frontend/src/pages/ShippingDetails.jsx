@@ -14,6 +14,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { motion, AnimatePresence } from "framer-motion";
 import Layout from "../components/Layout";
+import ParcelMarker from "../components/ParcelMarker";
 
 export default function ShippingDetails() {
   /* ---------- Sidebar toggle (mobile future-proof; hidden for now) ---------- */
@@ -124,9 +125,14 @@ export default function ShippingDetails() {
     },
   ];
 
+  const mockLocations = {
+    parcelLocation: { lat: -1.286389, lng: 36.817223 }, // Nairobi coordinates
+    destination: { lat: 37.33182, lng: -122.03118 }, // Apple HQ coordinates
+  };
+
   return (
     <Layout>
-      <div className="flex h-screen font-sans bg-gray-100 overflow-hidden">
+      <div className="flex h-screen relative font-sans bg-gray-100 overflow-hidden">
         {/* ---------- Main Column (scrollable) ---------- */}
         <div className="flex-1 flex flex-col h-full">
           {/* Scrollable main content */}
@@ -159,8 +165,8 @@ export default function ShippingDetails() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Map */}
               <div className="lg:col-span-2">
-                <div className="flex h-64 items-center justify-center rounded-lg border bg-gray-200 md:h-72">
-                  <p className="text-gray-500">[Map Placeholder]</p>
+                <div className="h-[500px] w-full rounded-md overflow-hidden shadow">
+                  <ParcelMarker />
                 </div>
               </div>
 

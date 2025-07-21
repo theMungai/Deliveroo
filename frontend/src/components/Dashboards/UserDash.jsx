@@ -22,7 +22,7 @@ function Order({ parcelId, status, date, receiver, location, weight }) {
       break;
   }
   return (
-    <div className="bg-white border border-[#818181] rounded-[10px] p-5">
+    <div className="bg-white rounded-[10px] shadow hover:scale-101 transition-transform duration-300 p-5">
       <div className="flex justify-between ">
         <h1 className="text-black text-[18px] font-[500]">{parcelId}</h1>
         {statusColor && (
@@ -51,7 +51,7 @@ function Order({ parcelId, status, date, receiver, location, weight }) {
         </div>
       </div>
 
-      <button className="w-full py-2.5 bg-[#F9F9FA] cursor-pointer border-[0.8px] rounded-[6px] border-[#818181] hover:border-[#73C322] hover:text-[#73C322]">
+      <button className="w-full py-2.5 bg-[#F9F9FA] text-[#7a7a82] cursor-pointer border-[0.8px] rounded-[6px] border-[#d4d4d4cb] hover:border-[#73C322] hover:text-[#73C322]">
         <Link to="/shipping-details">View Details</Link>
       </button>
     </div>
