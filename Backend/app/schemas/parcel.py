@@ -28,10 +28,8 @@ class ParcelCreate(BaseModel):
     destination_lng: float
     weight: float
     weight_category_id: int
+    user_id: int
     price: int  # Optional.
-
-from pydantic import BaseModel
-from datetime import datetime
 
 class ParcelOut(BaseModel):
     id: int
