@@ -6,7 +6,7 @@ from app.database.database import get_db
 from app.models.admin import Admin
 from app.schemas.admin import AdminCreate, AdminOut, AdminLogin
 from app.database.security import verify_password, get_password_hash
-from app.auth.auth import get_current_admin  # <-- You need to implement this
+from app.routes.auth import get_current_admin  # <-- You need to implement this
 
 router = APIRouter(prefix="/admins", tags=["admins"])
 

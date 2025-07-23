@@ -2,20 +2,18 @@ from pydantic import BaseModel, EmailStr
 from datetime import datetime
 from pydantic.config import ConfigDict
 
-class UserCreate(BaseModel):
+class AdminBase(BaseModel):
     name: str
     email: EmailStr
+
+class AdminCreate(AdminBase):
     password: str
 
-class UserLogin(BaseModel):
-    email: EmailStr
-    password: str
-
-class UserOut(BaseModel):
+class AdminOut(AdminBase):
     id: int
-    name: str
-    email: EmailStr
-    is_active: bool
     created_at: datetime
-
     model_config = ConfigDict(from_attributes=True)
+
+class AdminLogin(BaseModel):
+    email: EmailStr
+    password: str

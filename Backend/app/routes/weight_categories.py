@@ -7,32 +7,32 @@ from app.schemas.weight_category import WeightCategoryCreate, WeightCategoryOut
 router = APIRouter(prefix="/weight-categories", tags=["Weight Categories"])
 
 
-@router.get("/weights", response_model=list[WeightCategoryOut])
+@router.get("/", response_model=list[WeightCategoryOut])
 def get_categories(db:Session = Depends(get_db)):
     categories = db.query(WeightCategory).all()
-    return {"data" : categories}
+    return categories
 
 
-@router.get("weights/{id}", response_model=WeightCategoryOut)
+@router.get("/{id}", response_model=WeightCategoryOut)
 def get_category_by_id(id : int, db: Session = Depends(get_db)):
-    category = db.query(WeightCategory).filter(WeightCategory.id == id)
+    category = db.query(WeightCategory).filter(WeightCategory.id == id).first()
 
     if not category:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Category with id {id} was not found.")
-    return {"category" : category}
+    return category
 
 
-@router.post("/weights", response_model=WeightCategoryCreate,status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=WeightCategoryCreate,status_code=status.HTTP_201_CREATED)
 def create_category(category : WeightCategoryCreate, db : Session = Depends(get_db)):
     new_category = WeightCategory(**category.dict())
     db.add(new_category)
     db.commit()
     db.refresh(new_category)
 
-    return {"data" : new_category}
+    return category
 
 
-@router.delete("/weights/{id}",status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{id}",status_code=status.HTTP_204_NO_CONTENT)
 def delete_category(id : int, db : Session = Depends(get_db)):
     category = db.query(WeightCategory).filter(WeightCategory.id == id).first()
 

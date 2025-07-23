@@ -4,9 +4,9 @@ from typing import List
 
 from app.database.database import get_db
 from app.models.user import User
-from app.schemas.user import UserCreate, UserOut, UserLogin
+from app.schemas import UserCreate, UserOut, UserLogin
 from app.database.security import verify_password, get_password_hash
-from app.auth.auth import get_current_user
+from app.routes.auth import get_current_user
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -47,4 +47,5 @@ def get_profile(current_user: User = Depends(get_current_user)) -> UserOut:
 # Route to list all users
 @router.get("/", response_model = List[UserOut])
 def list_users(db: Session = Depends(get_db)) ->List[UserOut]:
-    return db.query(User).all()
+    users = db.query(User).all()
+    return [UserOut.from_orm(user) for user in users]

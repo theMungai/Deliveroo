@@ -8,12 +8,12 @@ from app.models.parcel import Parcel
 router = APIRouter(prefix="/parcels", tags=["Parcels"])
 
 
-@router.get("/parcels", response_model=list(ParcelOut), status_code=status.HTTP_200_OK)
+@router.get("/", response_model=list[ParcelOut], status_code=status.HTTP_200_OK)
 def get_parcels(db : Session = Depends(get_db)):
     parcels = db.query(Parcel).all()
     return parcels
 
-@router.get("/parcels/{id}", response_model=ParcelOut)
+@router.get("/{id}", response_model=ParcelOut)
 def get_parcel_by_id(id : int, db : Session = Depends(get_db)):
     parcel = db.query(Parcel).filter(Parcel.id == id).first()
 
@@ -23,7 +23,7 @@ def get_parcel_by_id(id : int, db : Session = Depends(get_db)):
     return {"parcel_detail" : parcel}
 
 
-@router.post("/parcels/", response_model=ParcelOut)
+@router.post("/", response_model=ParcelOut)
 def create_parcel(parcel : ParcelCreate, db: Session = Depends(get_db)):
     new_parcel = Parcel(**parcel.dict())
     db.add(new_parcel)
@@ -32,7 +32,7 @@ def create_parcel(parcel : ParcelCreate, db: Session = Depends(get_db)):
     return {"data" : new_parcel}
 
 
-@router.put("/parcels/{id}", status_code=status.HTTP_200_OK)
+@router.put("/{id}", status_code=status.HTTP_200_OK)
 def update_parcel(id : int, updated_parcel : ParcelUpdate , db : Session = Depends(get_db)):
     parcel_query = db.query(Parcel).filter(Parcel.id == id)
 
@@ -44,7 +44,7 @@ def update_parcel(id : int, updated_parcel : ParcelUpdate , db : Session = Depen
     return {"data" : updated_parcel}
 
 
-@router.delete("/parcels/{id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_parcel(id : int, db : Session = Depends(get_db)):
     parcel = db.query(Parcel).filter(Parcel.id == id).first()
 
