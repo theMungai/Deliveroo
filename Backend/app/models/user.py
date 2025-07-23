@@ -1,10 +1,8 @@
 from sqlalchemy import Column, Integer, String, DateTime, Boolean
 from sqlalchemy.orm import  relationship
-from sqlalchemy.ext.declarative import declarative_base
+from app.database.database import Base
 from sqlalchemy.sql import func
 
-
-Base = declarative_base()
 
 class User(Base):
     __tablename__ = "users"
@@ -17,6 +15,5 @@ class User(Base):
     created_at = Column(DateTime, default=func.now(), nullable=False)
 
     parcels = relationship("Parcel", back_populates="user")
-
 
 

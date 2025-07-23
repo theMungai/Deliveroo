@@ -1,8 +1,7 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, Float, func
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+from app.database.database import Base
 
-Base = declarative_base()
 
 class WeightCategory(Base):
     __tablename__ = "weight_categories"

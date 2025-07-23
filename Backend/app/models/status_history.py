@@ -1,9 +1,7 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from app.database.database import Base
 
 class ParcelStatusHistory(Base):
     __tablename__ = "parcel_status_histories"
@@ -17,3 +15,5 @@ class ParcelStatusHistory(Base):
     
     parcel = relationship("Parcel", back_populates="status_history")
     admin = relationship("Admin", back_populates="status_history_entries")
+
+# parcel_id = Column(Integer, ForeignKey("parcels.id"), nullable=False)

@@ -14,3 +14,9 @@ class AdminOut(BaseModel):
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class AdminLogin(BaseModel):
+    id: int
+    email : str
+    password : str

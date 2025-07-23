@@ -1,9 +1,9 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+from app.database.database import Base
 from sqlalchemy.sql import func
 
-Base = declarative_base()
+
 class Parcel(Base):
     __tablename__ = "parcels"
 
@@ -19,3 +19,4 @@ class Parcel(Base):
     user = relationship("User", back_populates="parcels")
     weight_category = relationship("WeightCategory", back_populates="parcels")
     status_history = relationship("ParcelStatusHistory", back_populates="parcel", cascade="all, delete-orphan")
+
