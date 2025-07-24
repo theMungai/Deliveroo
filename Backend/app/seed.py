@@ -91,6 +91,7 @@ def seed():
         else:
             for _ in range(5):
                 new_parcel = parcel.Parcel(
+                    recipient_name=fake.name(),
                     pickup_address=fake.address(),
                     pickup_lat=fake.latitude(),
                     pickup_lng=fake.longitude(),
