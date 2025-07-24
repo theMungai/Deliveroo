@@ -43,37 +43,44 @@ def seed():
         db.close()
                 
 
+        
         # Seed users
         users = [
-            {"email": "alice@example.com", "name": "Alice", "password": "password123"},
-            {"email": "bob@example.com", "name": "Bob", "password": "securepass456"}
+            user.User(
+                first_name="John",
+                last_name="Doe",
+                email="john.doe@example.com",
+                password=hash_password("password1"),
+                is_active=True
+            ),
+            user.User(
+                first_name="Jane",
+                last_name="Smith",
+                email="jane.smith@example.com",
+                password=hash_password("password2"),
+                is_active=True
+            ),
         ]
-
-        for user_data in users:
-            existing_user = db.query(user.User).filter_by(email=user_data["email"]).first()
-            if existing_user:
-                print(f"⚠️ User already exists: {user_data['email']}")
-                continue
-
-            new_user = user.User(
-                email=user_data["email"],
-                name=user_data["name"],
-                password=hash_password(user_data["password"])
-            )
-            db.add(new_user)
-
+        for u in users:
+            existing = db.query(user.User).filter_by(email=u.email).first()
+            if not existing:
+                db.add(u)
         db.commit()
-        
 
+        # Seed admin
         admin_data = {
+            "first_name": "Admin",
+            "last_name": "User",
             "email": "admin@example.com",
-            "name": "Admin",
-            "password": hash_password("adminpass")
+            "password": hash_password("adminpass"),
+            "is_active": True
         }
-        new_admin = admin.Admin(**admin_data)
-        db.add(new_admin)
-        db.commit()
-        print("✅ Seeded admin.")
+        existing_admin = db.query(admin.Admin).filter_by(email=admin_data["email"]).first()
+        if not existing_admin:
+            new_admin = admin.Admin(**admin_data)
+            db.add(new_admin)
+            db.commit()
+            print("✅ Seeded admin.")
 
         # Seed parcels
         all_users = db.query(user.User).all()
