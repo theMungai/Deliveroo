@@ -26,18 +26,7 @@ const customIcon = new Icon({
 // 3. Sample Markers for Testing
 // ========================
 const markers = [
-  {
-    geocode: [1.29, 36.82],
-    popUp: "Parcel Location",
-  },
-  {
-    geocode: [1.3, 36.82],
-    popUp: "Destination",
-  },
-  {
-    geocode: [1.305, 36.825],
-    popUp: "Other Delivery",
-  },
+
 ];
 
 // ========================
@@ -105,12 +94,7 @@ function ParcelMarker() {
         ))}
 
         {/* Hardcoded test markers */}
-        <Marker key="hardcoded-1" position={[1.31, 36.815]} icon={customIcon}>
-          <Popup>Backup Stop 1</Popup>
-        </Marker>
-        <Marker key="hardcoded-2" position={[1.298, 36.813]} icon={customIcon}>
-          <Popup>Backup Stop 2</Popup>
-        </Marker>
+        
   
     </MapContainer>
   );

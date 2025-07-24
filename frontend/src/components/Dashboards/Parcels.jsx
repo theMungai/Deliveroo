@@ -6,6 +6,7 @@ export const parcels = [
     destination: "123, Nairobi, Kenya",
     weight: "2.5",
     deliveryDate: "7/8/2025",
+    price: 300,
   },
   {
     id: "SWP002",
@@ -14,30 +15,33 @@ export const parcels = [
     destination: "456, Mombasa, Kenya",
     weight: "3.2",
     deliveryDate: "8/8/2025",
+    price: 300,
   },
   {
     id: "SWP003",
     status: "Delayed",
     recipient: "Nick Musyoki",
     destination: "11, Nakuru, Kenya",
-    weight: "3.2",
+    weight: "11",
     deliveryDate: "8/8/2025",
+    price: 500,
   },
   {
     id: "SWP004",
     status: "Canceled",
-    recipient: " Emily Atieno",
+    recipient: "Emily Atieno",
     destination: "128, Kisumu, Kenya",
     weight: "3.2",
     deliveryDate: "8/8/2025",
+    price: 300,
   },
   {
     id: "SWP005",
     status: "Pending",
     recipient: "Irene Cherono",
     destination: "456, Eldoret, Kenya",
-    weight: "3.2",
+    weight: "22",
     deliveryDate: "8/8/2025",
+    price: 1000,
   }
 ];
-
