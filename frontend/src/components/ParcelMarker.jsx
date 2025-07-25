@@ -77,6 +77,7 @@ function ParcelMarker({ parcel }) {
       zoom={13}
       scrollWheelZoom={true}
       style={{ height: "100%", width: "100%" }}
+      className="z-0"
     >
       {/* Base Map Tiles */}
       <TileLayer
