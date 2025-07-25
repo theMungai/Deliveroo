@@ -21,7 +21,7 @@ def create_app() -> FastAPI:
     # Register routers
     app.include_router(users.router)
     app.include_router(parcels.router)
-    app.include_router(auth.router)  # ✅ INCLUDE THIS
+    app.include_router(auth.router) 
     app.include_router(admins.router)
     app.include_router(weight_categories.router)
 

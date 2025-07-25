@@ -1,3 +1,5 @@
+# Backend/app/routes/auth.py
+
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
@@ -8,6 +10,9 @@ from app.database.database import get_db
 from app.models.user import User
 from app.models.admin import Admin
 from app.database.config import settings
+from fastapi import APIRouter
+
+router = APIRouter()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/users/login")
 
