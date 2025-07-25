@@ -65,7 +65,7 @@ function OrderForm() {
       alert("You must be logged in to create an order.");
       return;
     }
-    fetch("http://127.0.0.1:8000/users/profile", {
+    fetch("https://deliveroo-yptw.onrender.com/users/profile", {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
@@ -89,7 +89,7 @@ function OrderForm() {
           weight: parseFloat(weight),
           price: price,
         };
-        fetch("http://127.0.0.1:8000/parcels", {
+        fetch("https://deliveroo-yptw.onrender.com/parcels", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

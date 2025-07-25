@@ -19,7 +19,7 @@ function ProfileCard() {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    fetch('http://127.0.0.1:8000/users/profile', {
+    fetch('https://deliveroo-yptw.onrender.com/users/profile', {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
@@ -29,7 +29,7 @@ function ProfileCard() {
       .then(data => {
         setUser(data);
         if (data.id) {
-          fetch(`http://127.0.0.1:8000/parcels/user/${data.id}`, {
+          fetch(`https://deliveroo-yptw.onrender.com/parcels/user/${data.id}`, {
             headers: {
               Authorization: `Bearer ${token}`,
               Accept: 'application/json',

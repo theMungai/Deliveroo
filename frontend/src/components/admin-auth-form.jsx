@@ -48,7 +48,7 @@ const Admin_AuthForm = () => {
     } else {
       if (authType === "signup") {
         // Admin signup API call
-        fetch("http://127.0.0.1:8000/admins/register", {
+        fetch("https://deliveroo-yptw.onrender.com/admins/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -74,7 +74,7 @@ const Admin_AuthForm = () => {
           });
       } else {
         // Admin login API call
-        fetch("http://127.0.0.1:8000/admins/login", {
+        fetch("https://deliveroo-yptw.onrender.com/admins/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
