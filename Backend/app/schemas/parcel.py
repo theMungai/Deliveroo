@@ -21,29 +21,30 @@ class ParcelUpdate(BaseModel):
 
 class ParcelCreate(BaseModel):
     pickup_address: str
-    pickup_lat: float
-    pickup_lng: float
+    pickup_lat: Optional[float] = None
+    pickup_lng: Optional[float] = None
     destination_address: str
-    destination_lat: float
-    destination_lng: float
+    destination_lat: Optional[float] = None
+    destination_lng: Optional[float] = None
     weight: float
-    weight_category_id: int
-    user_id: int
-    price: int  # Optional.
-    recipient_name : str
+    weight_category_id: Optional[int] = None
+    user_id: Optional[int] = None
+    price: int
+    recipient_name: str
 
 class ParcelOut(BaseModel):
     id: int
     pickup_address: str
-    pickup_lat: float
-    pickup_lng: float
+    pickup_lat: Optional[float] = None
+    pickup_lng: Optional[float] = None
     destination_address: str
-    destination_lat: float
-    destination_lng: float
+    destination_lat: Optional[float] = None
+    destination_lng: Optional[float] = None
     weight: float
     price: float
+    recipient_name: str
+    status: str
     updated_at: datetime
-    recipient_name : str
 
     class Config:
         from_attributes = True

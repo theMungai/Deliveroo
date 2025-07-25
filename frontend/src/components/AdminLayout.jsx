@@ -1,5 +1,5 @@
 import React from 'react'
-import Topbar from './common/Topbar';
+import AdminTopBar from './common/AdminTopBar';
 import AdminSidebar from './AdminSidebar';
 import Footer from './common/Footer';
 
@@ -10,7 +10,7 @@ const AdminLayout = ({children}) => {
         <AdminSidebar />
 
         <div className="basis-[84%]">
-          <Topbar />
+          <AdminTopBar />
           {children}
           
         </div>

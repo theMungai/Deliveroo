@@ -1,3 +1,9 @@
+# Route to get user by id
+from sqlalchemy.orm import Session
+from app.models.user import User
+from app.schemas.user import UserOut
+
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
@@ -11,6 +17,19 @@ from app.auth.utils import create_access_token
 
 
 router = APIRouter(prefix="/users", tags=["users"])
+
+# Route to get the currently authenticated user's profile
+@router.get("/profile", response_model=UserOut)
+def get_profile(current_user: User = Depends(get_current_user)) -> UserOut:
+    return UserOut.model_validate(current_user)
+
+# Route to get user by id
+@router.get("/{user_id}", response_model=UserOut)
+def get_user_by_id(user_id: int, db: Session = Depends(get_db)) -> UserOut:
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return UserOut.model_validate(user)
 
 # Route for registering a new user
 @router.post("/register", response_model=UserCreate, status_code=status.HTTP_201_CREATED)
@@ -47,9 +66,9 @@ def login_user(user: UserLogin, db: Session = Depends(get_db)):
     }
 
 # Route to get the currently authenticated user's profile
-@router.get("/profile", response_model=UserBase)
-def get_profile(current_user: User = Depends(get_current_user)) -> UserBase:
-    return current_user
+@router.get("/profile", response_model=UserOut)
+def get_profile(current_user: User = Depends(get_current_user)) -> UserOut:
+    return UserOut.model_validate(current_user)
 
 # Route to list all users
 @router.get("/", response_model = List[UserOut])

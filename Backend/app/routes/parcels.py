@@ -1,15 +1,22 @@
+
 from fastapi import APIRouter, Depends, HTTPException, status, Response
 from sqlalchemy.orm import Session
 from app.database.database import get_db
 from app.schemas.parcel import ParcelCreate, ParcelOut, ParcelUpdate
 from app.models.parcel import Parcel
+from app.models.user import User
 from sqlalchemy.inspection import inspect
-from typing import List
 
 router = APIRouter(prefix="/parcels", tags=["Parcels"])
 
+# Get parcels for a specific user
+@router.get("/user/{user_id}", response_model=list[ParcelOut], status_code=status.HTTP_200_OK)
+def get_user_parcels(user_id: int, db: Session = Depends(get_db)):
+    parcels = db.query(Parcel).filter(Parcel.user_id == user_id).all()
+    return parcels
 
-@router.get("/", response_model=List[ParcelOut], status_code=status.HTTP_200_OK)
+
+@router.get("/", response_model=list[ParcelOut], status_code=status.HTTP_200_OK)
 def get_parcels(db : Session = Depends(get_db)):
     parcels = db.query(Parcel).all()
     return parcels
@@ -26,7 +33,10 @@ def get_parcel_by_id(id : int, db : Session = Depends(get_db)):
 
 @router.post("/", response_model=ParcelOut)
 def create_parcel(parcel : ParcelCreate, db: Session = Depends(get_db)):
-    new_parcel = Parcel(**parcel.dict())
+    parcel_data = parcel.dict()
+    if 'status' not in parcel_data or not parcel_data['status']:
+        parcel_data['status'] = 'Pending'
+    new_parcel = Parcel(**parcel_data)
     db.add(new_parcel)
     db.commit()
     db.refresh(new_parcel)
