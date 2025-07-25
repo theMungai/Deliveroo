@@ -23,13 +23,7 @@ function ShippingDetails() {
   const [newDestination, setNewDestination] = useState("");
   const [destTouched, setDestTouched] = useState(false);
 
-  // <option value="">Select Destination</option>
-  //               <option value="Nairobi BuruBuru">Nairobi BuruBuru</option>
-  //               <option value="Kisumu">Kisumu</option>
-  //               <option value="Eldoret">Eldoret</option>
-  //               <option value="Nakuru">Nakuru</option>
-  //               <option value="Nyeri">Nyeri</option>
-  /* Mock saved addresses for dropdown */
+
   const savedAddresses = [
     "Nairobi BuruBuru",
     "Kisumu",
@@ -131,10 +125,6 @@ function ShippingDetails() {
     },
   ];
 
-  // const mockLocations = {
-  //   parcelLocation: { lat: -1.286389, lng: 36.817223 }, // Nairobi coordinates
-  //   destination: { lat: 37.33182, lng: -122.03118 }, // Apple HQ coordinates
-  // };
 
   return (
     <Layout>

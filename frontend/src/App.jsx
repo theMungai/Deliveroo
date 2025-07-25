@@ -2,6 +2,7 @@ import './App.css';
 import './index.css';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import AdminDashboard from './pages/AdminDashboard.jsx';
 import Dashboard from './pages/Dashboard';
 import NewOrder from './pages/NewOrder';
@@ -11,10 +12,12 @@ import Profile from './pages/Profile.jsx';
 import LandingPage from './pages/LandingPage.jsx';
 import ShippingDetails from './pages/ShippingDetails.jsx';
 
+import { CoordinatesProvider } from './components/Coordinates.jsx'; 
 function App() {
   return (
-    <>
-      <Router>
+    <Router>
+      {/* ✅ Wrap all routes with CoordinatesProvider */}
+      <CoordinatesProvider>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/admin" element={<AdminDashboard />} />
@@ -25,8 +28,8 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/shipping-details" element={<ShippingDetails />} />
         </Routes>
-      </Router>
-    </>
+      </CoordinatesProvider>
+    </Router>
   );
 }
 

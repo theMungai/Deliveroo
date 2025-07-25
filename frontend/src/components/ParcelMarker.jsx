@@ -1,102 +1,52 @@
-// import "./styles.css";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { useCoordinates } from "./Coordinates";
+import Routing from "./Routing";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
-// import MarkerClusterGroup from "react-leaflet-cluster";
-import MapPin from "../assets/LocationPin.png";
-import "leaflet/dist/leaflet.css";
-import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
-
-import { useEffect } from "react";
-
-import L, { Icon} from "leaflet";
-import "leaflet-routing-machine"; // must come AFTER importing 'L'
-
-
-// ========================
-// 1. Custom Marker Icon
-// ========================
-const customIcon = new Icon({
-  iconUrl: MapPin,
-  iconSize: [38, 38],
+// Fix default icon paths
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
 });
 
-
-// ========================
-// 3. Sample Markers for Testing
-// ========================
-const markers = [
-
-];
-
-// ========================
-// 4. Routing Component
-// ========================
-const Routing = ({ from, to }) => {
-  const map = useMap();
-
-  useEffect(() => {
-    if (!map || !from || !to || !L.Routing) return;
-
-    const control = L.Routing.control({
-      waypoints: [L.latLng(...from), L.latLng(...to)],
-      router: L.Routing.osrmv1({
-        serviceUrl: "https://router.project-osrm.org/route/v1",
-        profile: "driving",
-      }),
-      lineOptions: {
-        styles: [{ color: "#0084FF", weight: 5 }],
-      },
-      addWaypoints: false,
-      draggableWaypoints: false,
-      fitSelectedRoutes: true,
-      show: false,
-    }).addTo(map);
-
-    return () => map.removeControl(control);
-  }, [map, from, to]);
-
-  return null;
-};
-
-// ========================
-// 5. Main Component
-// ========================
 function ParcelMarker() {
-  const parcelLocation = [1.2921, 36.8219];  
-  const destination = [0.0515, 37.6456];     
+  const { pickupLocation, destinationLocation } = useCoordinates();
 
   return (
     <MapContainer
-      center={parcelLocation}
-      zoom={13}
-      scrollWheelZoom={true}
+      center={pickupLocation}
+      zoom={7}
+      scrollWheelZoom
       style={{ height: "100%", width: "100%" }}
-      className="absolute top-0 left-0"
     >
-      {/* Base Map Tiles */}
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+        attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {/* Route Line */}
-      <Routing from={parcelLocation} to={destination} />
+      {/* Optional markers */}
+      {pickupLocation && (
+        <Marker position={pickupLocation}>
+          <Popup>Pickup Location</Popup>
+        </Marker>
+      )}
 
+      {destinationLocation && (
+        <Marker position={destinationLocation}>
+          <Popup>Destination</Popup>
+        </Marker>
+      )}
 
-        {markers.map((marker, index) => (
-          <Marker
-            key={`marker-${index}`}
-            position={marker.geocode}
-            icon={customIcon}
-          >
-            <Popup>{marker.popUp}</Popup>
-          </Marker>
-        ))}
-
-        {/* Hardcoded test markers */}
-        
-  
+      {/* Routing line */}
+      {pickupLocation && destinationLocation && (
+        <Routing from={pickupLocation} to={destinationLocation} />
+      )}
     </MapContainer>
   );
 }
