@@ -369,47 +369,47 @@ export default function ShippingDetails() {
 
 // /* ---------- Small Reusable Bits ---------- */
 
-// function SidebarItem({ icon, text }) {
-//   return (
-//     <div className="flex cursor-pointer select-none items-center gap-3 px-6 py-3 bg-gray-800/hover">
-//       {icon}
-//       <span className="font-medium">{text}</span>
-//     </div>
-//   );
-// }
+function SidebarItem({ icon, text }) {
+  return (
+    <div className="flex cursor-pointer select-none items-center gap-3 px-6 py-3 bg-gray-800/hover">
+      {icon}
+      <span className="font-medium">{text}</span>
+    </div>
+  );
+}
 
-// function InfoCard({ icon, label, value }) {
-//   return (
-//     <div className="flex items-start gap-3 rounded-lg bg-white p-4 shadow-sm">
-//       {icon}
-//       <div>
-//         <p className="text-sm font-medium text-gray-500">{label}</p>
-//         <p className="font-semibold text-gray-900">{value}</p>
-//       </div>
-//     </div>
-//   );
-// }
+function InfoCard({ icon, label, value }) {
+  return (
+    <div className="flex items-start gap-3 rounded-lg bg-white p-4 shadow-sm">
+      {icon}
+      <div>
+        <p className="text-sm font-medium text-gray-500">{label}</p>
+        <p className="font-semibold text-gray-900">{value}</p>
+      </div>
+    </div>
+  );
+}
 
-// function ModalOverlay({ children, onClose }) {
-//   /* Close on Esc */
-//   useEffect(() => {
-//     const onKey = (e) => {
-//       if (e.key === "Escape") onClose();
-//     };
-//     window.addEventListener("keydown", onKey);
-//     return () => window.removeEventListener("keydown", onKey);
-//   }, [onClose]);
+function ModalOverlay({ children, onClose }) {
+  /* Close on Esc */
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
 
-//   return (
-//     <motion.div
-//       initial={{ opacity: 0 }}
-//       animate={{ opacity: 1 }}
-//       exit={{ opacity: 0 }}
-//       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-//       onClick={onClose}
-//     >
-//       {/* stop click bubbling so inner clicks don't close */}
-//       <div onClick={(e) => e.stopPropagation()}>{children}</div>
-//     </motion.div>
-//   );
-// }
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      onClick={onClose}
+    >
+      {/* stop click bubbling so inner clicks don't close */}
+      <div onClick={(e) => e.stopPropagation()}>{children}</div>
+    </motion.div>
+  );
+}
