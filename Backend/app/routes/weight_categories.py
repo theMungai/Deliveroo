@@ -3,11 +3,12 @@ from sqlalchemy.orm import Session
 from app.database.database import get_db
 from app.models.weight_category import WeightCategory
 from app.schemas.weight_category import WeightCategoryCreate, WeightCategoryOut
+from typing import List
 
 router = APIRouter(prefix="/weight-categories", tags=["Weight Categories"])
 
 
-@router.get("/", response_model=list[WeightCategoryOut])
+@router.get("/", response_model=List[WeightCategoryOut])
 def get_categories(db:Session = Depends(get_db)):
     categories = db.query(WeightCategory).all()
     return categories
