@@ -72,6 +72,7 @@ function ParcelMarker() {
       zoom={13}
       scrollWheelZoom={true}
       style={{ height: "100%", width: "100%" }}
+      className="absolute top-0 left-0"
     >
       {/* Base Map Tiles */}
       <TileLayer
