@@ -65,16 +65,63 @@ export default function ShippingDetails() {
       setDestTouched(true);
       return;
     }
-    console.log("New destination submitted:", newDestination.trim());
-    // TODO: call API
-    setChangeModalOpen(false);
-    setDestTouched(false);
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("You must be logged in.");
+      return;
+    }
+
+    fetch(`https://deliveroo-yptw.onrender.com/parcels/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ destination_address: newDestination }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to update destination");
+        return res.json();
+      })
+      .then((updatedParcel) => {
+        setParcel(updatedParcel);
+        setChangeModalOpen(false);
+        setDestTouched(false);
+      })
+      .catch((err) => {
+        console.error("Error updating destination:", err);
+        alert("Could not update destination.");
+      });
   }
 
   function handleConfirmCancel() {
-    console.log("Order canceled");
-    // TODO: call API
-    setCancelModalOpen(false);
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("You must be logged in.");
+      return;
+    }
+
+    fetch(`https://deliveroo-yptw.onrender.com/parcels/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ status: "Cancelled" }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to cancel order");
+        return res.json();
+      })
+      .then((updatedParcel) => {
+        setParcel(updatedParcel);
+        setCancelModalOpen(false);
+      })
+      .catch((err) => {
+        console.error("Error cancelling order:", err);
+        alert("Could not cancel order.");
+      });
   }
 
   const { id } = useParams();
@@ -152,7 +199,9 @@ export default function ShippingDetails() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <div>
                 <h2 className="text-2xl font-bold">Shipment Details</h2>
-                <p className="text-gray-600 font-medium">Tracking ID: {parcel.id}</p>
+                <p className="text-gray-600 font-medium">
+                  Tracking ID: {parcel.id}
+                </p>
               </div>
               <div className="flex gap-4 w-full md:w-auto">
                 <button
@@ -189,9 +238,15 @@ export default function ShippingDetails() {
                     <span className="mt-1 h-3 w-3 rounded-full bg-green-500" />
                     <div>
                       <p className="font-semibold">Status: {parcel.status}</p>
-                      <p className="text-sm text-gray-700">Pickup: {parcel.pickup_address}</p>
-                      <p className="text-sm text-gray-700">Destination: {parcel.destination_address}</p>
-                      <p className="text-xs text-gray-500">Updated: {parcel.updated_at}</p>
+                      <p className="text-sm text-gray-700">
+                        Pickup: {parcel.pickup_address}
+                      </p>
+                      <p className="text-sm text-gray-700">
+                        Destination: {parcel.destination_address}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Updated: {parcel.updated_at}
+                      </p>
                     </div>
                   </li>
                 </ul>
@@ -214,53 +269,147 @@ export default function ShippingDetails() {
           </main>
         </div>
       </div>
+      {/* ---------- Change Destination Modal ---------- */}
+      <AnimatePresence>
+        {isChangeModalOpen && (
+          <ModalOverlay onClose={() => setChangeModalOpen(false)}>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: -8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: -8 }}
+              transition={{ duration: 0.15 }}
+              className="w-[90%] max-w-md rounded-lg bg-white p-6 shadow-md"
+            >
+              <h3 className="mb-2 text-xl font-bold">Change Destination</h3>
+              <p className="mb-4 text-gray-700">
+                Once the address has been changed, an email will be sent.
+              </p>
+
+              <select
+                className="mb-4 w-full rounded border p-3 ring-blue-300/focus"
+                onChange={(e) => {
+                  setNewDestination(e.target.value);
+                  if (!destTouched) setDestTouched(true);
+                }}
+                value={newDestination}
+                ref={changeInputRef}
+              >
+                <option value="">Select from saved addresses...</option>
+                {savedAddresses.map((address, index) => (
+                  <option key={index} value={address}>
+                    {address}
+                  </option>
+                ))}
+              </select>
+
+              {destTouched && !isDestValid && (
+                <p className="text-red-500 text-sm mb-2">{destError}</p>
+              )}
+
+              <div className="mt-4 flex justify-end gap-2">
+                <button
+                  className="rounded bg-gray-200 px-4 py-2 font-medium"
+                  onClick={() => setChangeModalOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  disabled={!isDestValid}
+                  onClick={handleSaveDestination}
+                  className={`rounded px-4 py-2 font-medium text-white ${
+                    isDestValid ? "bg-blue-600" : "bg-blue-300"
+                  }`}
+                >
+                  Save
+                </button>
+              </div>
+            </motion.div>
+          </ModalOverlay>
+        )}
+      </AnimatePresence>
+
+      {/* ---------- Cancel Order Modal ---------- */}
+      <AnimatePresence>
+        {isCancelModalOpen && (
+          <ModalOverlay onClose={() => setCancelModalOpen(false)}>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: -8 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: -8 }}
+              transition={{ duration: 0.15 }}
+              className="w-[90%] max-w-md rounded-lg bg-white p-6 shadow-md"
+            >
+              <h3 className="mb-2 text-xl font-bold">Cancel Order</h3>
+              <p className="mb-4 text-gray-700">
+                Are you sure? Once you cancel this order, a confirmation email
+                will be sent.
+              </p>
+              <div className="flex justify-end gap-2">
+                <button
+                  ref={cancelNoBtnRef}
+                  className="rounded bg-gray-200 px-4 py-2 font-medium"
+                  onClick={() => setCancelModalOpen(false)}
+                >
+                  No
+                </button>
+                <button
+                  onClick={handleConfirmCancel}
+                  className="rounded bg-red-600 px-4 py-2 font-medium text-white"
+                >
+                  Yes, Cancel
+                </button>
+              </div>
+            </motion.div>
+          </ModalOverlay>
+        )}
+      </AnimatePresence>
     </Layout>
   );
 }
 
-/* ---------- Small Reusable Bits ---------- */
+// /* ---------- Small Reusable Bits ---------- */
 
-function SidebarItem({ icon, text }) {
-  return (
-    <div className="flex cursor-pointer select-none items-center gap-3 px-6 py-3 bg-gray-800/hover">
-      {icon}
-      <span className="font-medium">{text}</span>
-    </div>
-  );
-}
+// function SidebarItem({ icon, text }) {
+//   return (
+//     <div className="flex cursor-pointer select-none items-center gap-3 px-6 py-3 bg-gray-800/hover">
+//       {icon}
+//       <span className="font-medium">{text}</span>
+//     </div>
+//   );
+// }
 
-function InfoCard({ icon, label, value }) {
-  return (
-    <div className="flex items-start gap-3 rounded-lg bg-white p-4 shadow-sm">
-      {icon}
-      <div>
-        <p className="text-sm font-medium text-gray-500">{label}</p>
-        <p className="font-semibold text-gray-900">{value}</p>
-      </div>
-    </div>
-  );
-}
+// function InfoCard({ icon, label, value }) {
+//   return (
+//     <div className="flex items-start gap-3 rounded-lg bg-white p-4 shadow-sm">
+//       {icon}
+//       <div>
+//         <p className="text-sm font-medium text-gray-500">{label}</p>
+//         <p className="font-semibold text-gray-900">{value}</p>
+//       </div>
+//     </div>
+//   );
+// }
 
-function ModalOverlay({ children, onClose }) {
-  /* Close on Esc */
-  useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [onClose]);
+// function ModalOverlay({ children, onClose }) {
+//   /* Close on Esc */
+//   useEffect(() => {
+//     const onKey = (e) => {
+//       if (e.key === "Escape") onClose();
+//     };
+//     window.addEventListener("keydown", onKey);
+//     return () => window.removeEventListener("keydown", onKey);
+//   }, [onClose]);
 
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
-      onClick={onClose}
-    >
-      {/* stop click bubbling so inner clicks don't close */}
-      <div onClick={(e) => e.stopPropagation()}>{children}</div>
-    </motion.div>
-  );
-}
+//   return (
+//     <motion.div
+//       initial={{ opacity: 0 }}
+//       animate={{ opacity: 1 }}
+//       exit={{ opacity: 0 }}
+//       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+//       onClick={onClose}
+//     >
+//       {/* stop click bubbling so inner clicks don't close */}
+//       <div onClick={(e) => e.stopPropagation()}>{children}</div>
+//     </motion.div>
+//   );
+// }
