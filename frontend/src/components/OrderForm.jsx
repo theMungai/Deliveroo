@@ -88,6 +88,7 @@ function OrderForm() {
           destination_lng: orderForm.destinationCoords[1],
           weight: parseFloat(weight),
           price: price,
+          weight_category_id: 1
         };
         fetch("https://deliveroo-yptw.onrender.com/parcels", {
           method: "POST",
