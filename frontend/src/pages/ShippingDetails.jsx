@@ -16,20 +16,20 @@ import { motion, AnimatePresence } from "framer-motion";
 import Layout from "../components/Layout";
 import ParcelMarker from "../components/ParcelMarker";
 
-export default function ShippingDetails() {
-  /* ---------- Sidebar toggle (mobile future-proof; hidden for now) ---------- */
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
+function ShippingDetails() {
 
   /* ---------- Change Destination Modal State ---------- */
   const [isChangeModalOpen, setChangeModalOpen] = useState(false);
   const [newDestination, setNewDestination] = useState("");
   const [destTouched, setDestTouched] = useState(false);
 
-  /* Mock saved addresses for dropdown */
+
   const savedAddresses = [
-    "123 Main St, Nairobi",
-    "1 Infinite Loop, Cupertino",
-    "Westlands Mall, Nairobi",
+    "Nairobi BuruBuru",
+    "Kisumu",
+    "Eldoret",
+    "Nakuru",
+    "Nyeri",
   ];
 
   const destError = !newDestination.trim()
@@ -125,10 +125,6 @@ export default function ShippingDetails() {
     },
   ];
 
-  const mockLocations = {
-    parcelLocation: { lat: -1.286389, lng: 36.817223 }, // Nairobi coordinates
-    destination: { lat: 37.33182, lng: -122.03118 }, // Apple HQ coordinates
-  };
 
   return (
     <Layout>
@@ -165,7 +161,7 @@ export default function ShippingDetails() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Map */}
               <div className="lg:col-span-2">
-                <div className="h-[500px] w-full rounded-md overflow-hidden shadow">
+                <div className="h-[500px] relative w-full rounded-md overflow-hidden shadow">
                   <ParcelMarker />
                 </div>
               </div>
@@ -212,45 +208,6 @@ export default function ShippingDetails() {
           </main>
         </div>
 
-        {/* ---------- Mobile Sidebar Drawer (optional; appears when opened) ---------- */}
-        <AnimatePresence>
-          {isSidebarOpen && (
-            <ModalOverlay onClose={() => setSidebarOpen(false)}>
-              <motion.div
-                initial={{ x: "-100%" }}
-                animate={{ x: 0 }}
-                exit={{ x: "-100%" }}
-                transition={{ duration: 0.15 }}
-                className="flex h-full w-64 flex-col justify-between bg-gray-900 text-white"
-              >
-                <div>
-                  <div className="p-6 text-2xl font-bold">Deliveroo</div>
-                  <nav className="mt-4 space-y-2">
-                    <SidebarItem
-                      icon={<HomeIcon className="h-5 w-5" />}
-                      text="Dashboard"
-                    />
-                    <SidebarItem
-                      icon={<PlusCircleIcon className="h-5 w-5" />}
-                      text="New Order"
-                    />
-                    <SidebarItem
-                      icon={<UserCircleIcon className="h-5 w-5" />}
-                      text="Profile"
-                    />
-                  </nav>
-                </div>
-                <div className="border-t border-gray-700 p-4">
-                  <SidebarItem
-                    icon={<ArrowRightOnRectangleIcon className="h-5 w-5" />}
-                    text="Logout"
-                  />
-                </div>
-              </motion.div>
-            </ModalOverlay>
-          )}
-        </AnimatePresence>
-
         {/* ---------- Change Destination Modal ---------- */}
         <AnimatePresence>
           {isChangeModalOpen && (
@@ -283,23 +240,6 @@ export default function ShippingDetails() {
                     </option>
                   ))}
                 </select>
-
-                {/* Manual input */}
-                <input
-                  ref={changeInputRef}
-                  type="text"
-                  placeholder="Or enter new address"
-                  value={newDestination}
-                  onChange={(e) => {
-                    setNewDestination(e.target.value);
-                    if (!destTouched) setDestTouched(true);
-                  }}
-                  className="mb-2 w-full rounded border p-3 ring-blue-300/focus"
-                />
-
-                {destTouched && destError && (
-                  <p className="mb-2 text-sm text-red-500">{destError}</p>
-                )}
 
                 <div className="mt-4 flex justify-end gap-2">
                   <button
@@ -365,16 +305,6 @@ export default function ShippingDetails() {
   );
 }
 
-/* ---------- Small Reusable Bits ---------- */
-
-function SidebarItem({ icon, text }) {
-  return (
-    <div className="flex cursor-pointer select-none items-center gap-3 px-6 py-3 bg-gray-800/hover">
-      {icon}
-      <span className="font-medium">{text}</span>
-    </div>
-  );
-}
 
 function InfoCard({ icon, label, value }) {
   return (
@@ -403,11 +333,12 @@ function ModalOverlay({ children, onClose }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 p-4"
       onClick={onClose}
     >
-      {/* stop click bubbling so inner clicks don't close */}
       <div onClick={(e) => e.stopPropagation()}>{children}</div>
     </motion.div>
   );
 }
+
+export default ShippingDetails;

@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCube, faTruck, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faTruckFast} from '@fortawesome/free-solid-svg-icons';
+import { CheckCircle, Package } from 'react-feather'
 
 function ProfileCard() {
   const fileInputRef = useRef(null);
@@ -47,17 +48,17 @@ function ProfileCard() {
       <h3 className="text-lg font-semibold text-gray-800 mb-4">Statistics</h3>
       <ul>
         <li className="flex items-center mb-2 text-gray-700">
-          <FontAwesomeIcon icon={faCube} className="mr-3 text-gray-500" />
+          <Package className="mr-3 text-[#73C322]" />
           Total Orders
           <span className="ml-auto font-medium">4</span>
         </li>
         <li className="flex items-center mb-2 text-gray-700">
-          <FontAwesomeIcon icon={faTruck} className="mr-3 text-gray-500" />
+          <FontAwesomeIcon icon={faTruckFast} className="mr-3 text-[#73C322]" />
           In Transit
           <span className="ml-auto font-medium">2</span>
         </li>
         <li className="flex items-center text-gray-700">
-          <FontAwesomeIcon icon={faCheckCircle} className="mr-3 text-gray-500" />
+          <CheckCircle className="mr-3 text-[#73C322]" />
           Delivered
           <span className="ml-auto font-medium">2</span>
         </li>

@@ -30,6 +30,7 @@ class ParcelCreate(BaseModel):
     weight_category_id: int
     user_id: int
     price: int  # Optional.
+    recipient_name : str
 
 class ParcelOut(BaseModel):
     id: int
@@ -42,6 +43,7 @@ class ParcelOut(BaseModel):
     weight: float
     price: float
     updated_at: datetime
+    recipient_name : str
 
     class Config:
         from_attributes = True

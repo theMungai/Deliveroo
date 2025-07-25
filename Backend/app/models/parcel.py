@@ -17,6 +17,7 @@ class Parcel(Base):
     destination_lng = Column(Float, nullable=False)
     weight = Column(Float, nullable=False)
     price = Column(Float, nullable=False)
+    recipient_name = Column(String, nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     weight_category_id = Column(Integer, ForeignKey('weight_categories.id'), nullable=False)
 

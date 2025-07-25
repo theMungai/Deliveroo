@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import logo from "../assets/Logo.png";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const AuthForm = () => {
+const User_AuthForm = () => {
+  const navigate = useNavigate();
   const [authType, setAuthType] = useState("login");
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     email: "",
     password: "",
     cpassword: "",
@@ -25,10 +26,10 @@ const AuthForm = () => {
   const validate = () => {
     const newErrors = {};
     if (authType === "signup") {
-      if (!formData.firstName.trim())
-        newErrors.firstName = "First name is required";
-      if (!formData.lastName.trim())
-        newErrors.lastName = "Last name is required";
+      if (!formData.first_name.trim())
+        newErrors.first_name = "First name is required";
+      if (!formData.last_name.trim())
+        newErrors.last_name = "Last name is required";
       if (formData.password !== formData.cpassword)
         newErrors.cpassword = "Passwords do not match";
     }
@@ -37,50 +38,81 @@ const AuthForm = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      console.log("Submitted:", authType, formData);
-      alert(
-        `${authType === "login" ? "Logged in" : "Signed up"} successfully!`
-      );
+      let payload;
+      let url;
+      if (authType === "signup") {
+        payload = {
+          first_name: formData.first_name,
+          last_name: formData.last_name,
+          email: formData.email,
+          password: formData.password,
+        };
+        url = "http://127.0.0.1:8000/users/register";
+      } else {
+        payload = {
+          email: formData.email,
+          password: formData.password,
+        };
+        url = "http://127.0.0.1:8000/users/login";
+      }
 
-      // Reset
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        cpassword: "",
-      });
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          setErrors({ api: data.detail || "Authentication failed" });
+        } else {
+          alert(
+            `${authType === "login" ? "Logged in" : "Signed up"} successfully!`
+          );
+          setFormData({
+            first_name: "",
+            last_name: "",
+            email: "",
+            password: "",
+            cpassword: "",
+          });
+          if (authType === "signup") {
+            setAuthType("login");
+          } else {
+            navigate("/dashboard");
+          }
+        }
+      } catch (err) {
+        setErrors({ api: "Network error" }, err);
+      }
     }
   };
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
       <div className="w-full max-w-sm bg-white shadow-md rounded-xl p-6">
-        {/* Logo and Title */}
         <div className="text-center mb-6">
           <img src={logo} alt="Deliveroo" className="w-24 mx-auto mb-2" />
           <h2 className="text-lg font-semibold text-slate-900">User Portal</h2>
           <p className="text-xs text-slate-600">
-            Sign in or create an account for the user dashboard
+            Sign in or create an account for the User dashboard
           </p>
         </div>
 
         <div className="relative flex mb-4 bg-gray-100 p-1 rounded-lg">
-          {/* Sliding indicator */}
           <div
             className={`absolute top-1 bottom-1 w-1/2 rounded-[5px] bg-white shadow transition-transform duration-300 ease-in-out ${
               authType === "signup" ? "translate-x-full" : "translate-x-0"
             }`}
           />
 
-          {/* Tab buttons */}
           {["login", "signup"].map((type) => (
             <button
               key={type}
@@ -94,40 +126,41 @@ const AuthForm = () => {
           ))}
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           {authType === "signup" && (
             <div className="flex gap-2">
               <div className="w-1/2">
                 <input
                   type="text"
-                  name="firstName"
+                  name="first_name"
                   placeholder="First Name"
-                  value={formData.firstName}
+                  value={formData.first_name}
                   onChange={handleChange}
                   className={`w-full border outline-0 ${
-                    errors.firstName ? "border-red-500" : "border-gray-300"
+                    errors.first_name ? "border-red-500" : "border-gray-300"
                   } rounded-md px-3 py-2 text-sm`}
                 />
-                {errors.firstName && (
+                {errors.first_name && (
                   <p className="text-red-500 text-xs mt-1">
-                    {errors.firstName}
+                    {errors.first_name}
                   </p>
                 )}
               </div>
               <div className="w-1/2">
                 <input
                   type="text"
-                  name="lastName"
+                  name="last_name"
                   placeholder="Last Name"
-                  value={formData.lastName}
+                  value={formData.last_name}
                   onChange={handleChange}
                   className={`w-full border outline-0 ${
-                    errors.lastName ? "border-red-500" : "border-gray-300"
+                    errors.last_name ? "border-red-500" : "border-gray-300"
                   } rounded-md px-3 py-2 text-sm`}
                 />
-                {errors.lastName && (
-                  <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>
+                {errors.last_name && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.last_name}
+                  </p>
                 )}
               </div>
             </div>
@@ -187,9 +220,7 @@ const AuthForm = () => {
             type="submit"
             className="w-full py-2 px-4 rounded-md bg-lime-500 text-white text-sm font-semibold hover:bg-lime-600"
           >
-            <Link to="/dashboard">
-              {authType === "login" ? "Login" : "Create Account"}
-            </Link>
+            {authType === "login" ? "Login" : "Create Account"}
           </button>
         </form>
       </div>
@@ -197,4 +228,4 @@ const AuthForm = () => {
   );
 };
 
-export default AuthForm;
+export default User_AuthForm;

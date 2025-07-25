@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import logo from "../assets/Logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Admin_AuthForm = () => {
+  const navigate = useNavigate();
   const [authType, setAuthType] = useState("login");
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     email: "",
     password: "",
     cpassword: "",
@@ -25,10 +26,10 @@ const Admin_AuthForm = () => {
   const validate = () => {
     const newErrors = {};
     if (authType === "signup") {
-      if (!formData.firstName.trim())
-        newErrors.firstName = "First name is required";
-      if (!formData.lastName.trim())
-        newErrors.lastName = "Last name is required";
+      if (!formData.first_name.trim())
+        newErrors.first_name = "First name is required";
+      if (!formData.last_name.trim())
+        newErrors.last_name = "Last name is required";
       if (formData.password !== formData.cpassword)
         newErrors.cpassword = "Passwords do not match";
     }
@@ -37,26 +38,57 @@ const Admin_AuthForm = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      console.log("Submitted:", authType, formData);
-      alert(
-        `${authType === "login" ? "Logged in" : "Signed up"} successfully!`
-      );
+      let payload;
+      let url;
+      if (authType === "signup") {
+        payload = {
+          first_name: formData.first_name,
+          last_name: formData.last_name,
+          email: formData.email,
+          password: formData.password,
+        };
+        url = "http://127.0.0.1:8000/admins/register";
+      } else {
+        payload = {
+          email: formData.email,
+          password: formData.password,
+        };
+        url = "http://127.0.0.1:8000/admins/login";
+      }
 
-      // Reset
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        cpassword: "",
-      });
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          setErrors({ api: data.detail || "Authentication failed" });
+        } else {
+          alert(
+            `${authType === "login" ? "Logged in" : "Signed up"} successfully!`
+          );
+          // Optionally redirect or store token here
+          setFormData({
+            first_name: "",
+            last_name: "",
+            email: "",
+            password: "",
+            cpassword: "",
+          });
+          navigate("/admin");
+        }
+      } catch (err) {
+        setErrors({ api: "Network error" }, err);
+      }
     }
   };
 
@@ -99,33 +131,35 @@ const Admin_AuthForm = () => {
               <div className="w-1/2">
                 <input
                   type="text"
-                  name="firstName"
+                  name="first_name"
                   placeholder="First Name"
-                  value={formData.firstName}
+                  value={formData.first_name}
                   onChange={handleChange}
                   className={`w-full border outline-0 ${
-                    errors.firstName ? "border-red-500" : "border-gray-300"
+                    errors.first_name ? "border-red-500" : "border-gray-300"
                   } rounded-md px-3 py-2 text-sm`}
                 />
-                {errors.firstName && (
+                {errors.first_name && (
                   <p className="text-red-500 text-xs mt-1">
-                    {errors.firstName}
+                    {errors.first_name}
                   </p>
                 )}
               </div>
               <div className="w-1/2">
                 <input
                   type="text"
-                  name="lastName"
+                  name="last_name"
                   placeholder="Last Name"
-                  value={formData.lastName}
+                  value={formData.last_name}
                   onChange={handleChange}
                   className={`w-full border outline-0 ${
-                    errors.lastName ? "border-red-500" : "border-gray-300"
+                    errors.last_name ? "border-red-500" : "border-gray-300"
                   } rounded-md px-3 py-2 text-sm`}
                 />
-                {errors.lastName && (
-                  <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>
+                {errors.last_name && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.last_name}
+                  </p>
                 )}
               </div>
             </div>
@@ -185,9 +219,7 @@ const Admin_AuthForm = () => {
             type="submit"
             className="w-full py-2 px-4 rounded-md bg-lime-500 text-white text-sm font-semibold hover:bg-lime-600"
           >
-            <Link to="admin">
-              {authType === "login" ? "Login" : "Create Account"}
-            </Link>
+            {authType === "login" ? "Login" : "Create Account"}
           </button>
         </form>
       </div>
