@@ -5,6 +5,7 @@ from app.database.database import get_db
 from app.schemas.parcel import ParcelCreate, ParcelOut, ParcelUpdate
 from app.models.parcel import Parcel
 from app.models.user import User
+from app.models.weight_category import WeightCategory
 from sqlalchemy.inspection import inspect
 
 router = APIRouter(prefix="/parcels", tags=["Parcels"])
@@ -32,15 +33,34 @@ def get_parcel_by_id(id : int, db : Session = Depends(get_db)):
 
 
 @router.post("/", response_model=ParcelOut)
-def create_parcel(parcel : ParcelCreate, db: Session = Depends(get_db)):
-    parcel_data = parcel.dict()
-    if 'status' not in parcel_data or not parcel_data['status']:
-        parcel_data['status'] = 'Pending'
-    new_parcel = Parcel(**parcel_data)
-    db.add(new_parcel)
-    db.commit()
-    db.refresh(new_parcel)
-    return new_parcel
+def create_parcel(parcel: ParcelCreate, db: Session = Depends(get_db)):
+    try:
+        parcel_data = parcel.dict()
+
+        # Auto-assign weight category
+        weight_category = db.query(WeightCategory).filter(
+            WeightCategory.min_weight <= parcel.weight,
+            WeightCategory.max_weight >= parcel.weight
+        ).first()
+
+        if not weight_category:
+            raise HTTPException(status_code=400, detail="No matching weight category found for the given weight.")
+
+        parcel_data["weight_category_id"] = weight_category.id
+        parcel_data["status"] = "Pending"
+
+        new_parcel = Parcel(**parcel_data)
+        db.add(new_parcel)
+        db.commit()
+        db.refresh(new_parcel)
+
+        return new_parcel
+
+    except Exception as e:
+        print(f"Error creating parcel: {e}")  # You’ll see this in your Render logs
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 
 
 @router.put("/{id}", response_model=ParcelOut, status_code=status.HTTP_200_OK)
