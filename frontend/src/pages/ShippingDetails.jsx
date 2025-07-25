@@ -29,9 +29,11 @@ export default function ShippingDetails() {
   const cancelNoBtnRef = useRef(null);
 
   const savedAddresses = [
-    "123 Main St, Nairobi",
-    "1 Infinite Loop, Cupertino",
-    "Westlands Mall, Nairobi",
+    "Nairobi BuruBuru",
+    "Kisumu",
+    "Eldoret",
+    "Nakuru",
+    "Nyeri"
   ];
 
   const destError = !newDestination.trim()
