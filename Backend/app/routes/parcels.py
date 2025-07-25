@@ -4,11 +4,12 @@ from app.database.database import get_db
 from app.schemas.parcel import ParcelCreate, ParcelOut, ParcelUpdate
 from app.models.parcel import Parcel
 from sqlalchemy.inspection import inspect
+from typing import List
 
 router = APIRouter(prefix="/parcels", tags=["Parcels"])
 
 
-@router.get("/", response_model=list[ParcelOut], status_code=status.HTTP_200_OK)
+@router.get("/", response_model=List[ParcelOut], status_code=status.HTTP_200_OK)
 def get_parcels(db : Session = Depends(get_db)):
     parcels = db.query(Parcel).all()
     return parcels
