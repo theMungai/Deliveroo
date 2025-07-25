@@ -76,7 +76,7 @@ function UserDash() {
       setLoading(false);
       return;
     }
-    fetch("http://127.0.0.1:8000/users/profile", {
+    fetch("https://deliveroo-yptw.onrender.com/users/profile", {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
@@ -94,7 +94,7 @@ function UserDash() {
       .then((user) => {
         if (!user) return;
         if (user.id) {
-          fetch(`http://127.0.0.1:8000/parcels/user/${user.id}`, {
+          fetch(`https://deliveroo-yptw.onrender.com/parcels/user/${user.id}`, {
             headers: {
               Authorization: `Bearer ${token}`,
               Accept: "application/json",

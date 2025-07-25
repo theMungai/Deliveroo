@@ -14,7 +14,7 @@ function AdminDash() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    fetch("http://127.0.0.1:8000/parcels", {
+    fetch("https://deliveroo-yptw.onrender.com/parcels", {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",
@@ -195,7 +195,7 @@ function AdminDash() {
                 onClick={async () => {
                   const token = localStorage.getItem("token");
                   try {
-                    const res = await fetch(`http://127.0.0.1:8000/parcels/${selectedParcel.id}`, {
+                    const res = await fetch(`https://deliveroo-yptw.onrender.com/parcels/${selectedParcel.id}`, {
                       method: "PUT",
                       headers: {
                         "Content-Type": "application/json",

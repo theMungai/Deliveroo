@@ -121,7 +121,7 @@ export default function ShippingDetails() {
   useEffect(() => {
     if (!id) return;
     const token = localStorage.getItem("token");
-    fetch(`http://127.0.0.1:8000/parcels/${id}`, {
+    fetch(`https://deliveroo-yptw.onrender.com/parcels/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",

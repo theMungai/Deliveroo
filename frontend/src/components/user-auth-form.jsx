@@ -48,7 +48,7 @@ const AuthForm = () => {
     } else {
       if (authType === "signup") {
         // User signup API call
-        fetch("http://127.0.0.1:8000/users/register", {
+        fetch("https://deliveroo-yptw.onrender.com/users/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -74,7 +74,7 @@ const AuthForm = () => {
           });
       } else {
         // User login API call
-        fetch("http://127.0.0.1:8000/users/login", {
+        fetch("https://deliveroo-yptw.onrender.com/users/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

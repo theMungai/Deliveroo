@@ -6,10 +6,10 @@ function RecentOrders() {
   const [orders, setOrders] = React.useState([]);
   React.useEffect(() => {
     // Fetch user profile to get user_id
-    fetch('http://127.0.0.1:8000/users/profile')
+    fetch('https://deliveroo-yptw.onrender.com/users/profile')
       .then(res => res.json())
       .then(user => {
-        fetch(`http://127.0.0.1:8000/parcels/user/${user.id}`)
+        fetch(`https://deliveroo-yptw.onrender.com/parcels/user/${user.id}`)
           .then(res => res.json())
           .then(parcels => {
             // Sort parcels by updated_at descending (latest first) and take the first 3
