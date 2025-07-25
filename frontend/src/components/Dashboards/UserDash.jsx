@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PlusCircle, Calendar, Package, MapPin } from "react-feather";
 import { Link } from "react-router-dom";
 
+// Reusable Order component
 function Order({ parcelId, status, date, receiver, location, weight }) {
   let statusColor = "";
   switch (status) {
@@ -14,13 +15,16 @@ function Order({ parcelId, status, date, receiver, location, weight }) {
     case "Delayed":
       statusColor = "bg-[#FFEDD5] text-[#A66737]";
       break;
-    case "In transit":
+    case "In Transit":
       statusColor = "bg-[#DBEAFE] text-[#344BB3]";
       break;
     case "Canceled":
       statusColor = "bg-[#FFC5C5] text-[#FF0000]";
       break;
+    default:
+      statusColor = "bg-gray-200 text-gray-700";
   }
+
   return (
     <div className="bg-white rounded-[10px] shadow hover:scale-101 transition-transform duration-300 p-5">
       <div className="flex justify-between ">
@@ -52,61 +56,119 @@ function Order({ parcelId, status, date, receiver, location, weight }) {
       </div>
 
       <button className="w-full py-2.5 bg-[#F9F9FA] text-[#7a7a82] cursor-pointer border-[0.8px] rounded-[6px] border-[#d4d4d4cb] hover:border-[#73C322] hover:text-[#73C322]">
-        <Link to="/shipping-details">View Details</Link>
+        <Link to={`/shipping-details/${parcelId.replace('ID:', '')}`}>View Details</Link>
       </button>
     </div>
   );
 }
 
+// ✅ Main component
 function UserDash() {
+  const [parcels, setParcels] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchParcels = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("No token found in localStorage");
+      setError("Not logged in");
+      setLoading(false);
+      return;
+    }
+    fetch("http://127.0.0.1:8000/users/profile", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          console.error("Profile fetch failed", res.status, res.statusText);
+          setError(`Profile fetch failed: ${res.status}`);
+          setLoading(false);
+          return null;
+        }
+        return res.json();
+      })
+      .then((user) => {
+        if (!user) return;
+        if (user.id) {
+          fetch(`http://127.0.0.1:8000/parcels/user/${user.id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+            },
+          })
+            .then((res) => {
+              if (!res.ok) {
+                setError(`Parcels fetch failed: ${res.status}`);
+                setLoading(false);
+                return null;
+              }
+              return res.json();
+            })
+            .then((data) => {
+              if (!data) return;
+              setParcels(data);
+              setLoading(false);
+            })
+            .catch((err) => {
+              setError("Failed to fetch parcels");
+              setLoading(false);
+            });
+        } else {
+          setError("User ID not found");
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        setError("Failed to fetch user profile");
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchParcels();
+    const interval = setInterval(fetchParcels, 5000); // Poll every 5s
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="p-8">
-      <div className="flex justify-between items-center mb-12 ">
+      <div className="flex justify-between items-center mb-12">
         <h1 className="font-[800] text-[36px]">Your parcels</h1>
-        <button className="bg-[#73C322] text-white  p-3 rounded-[8px] cursor-pointer">
-          <Link to='/new-order' className="flex items-center gap-x-3">
-            <PlusCircle className="" />
+        <button className="bg-[#73C322] text-white p-3 rounded-[8px] cursor-pointer">
+          <Link to="/new-order" className="flex items-center gap-x-3">
+            <PlusCircle />
             Create New Order
           </Link>
         </button>
       </div>
 
-      <div className="container-grid grid grid-cols-3 gap-5">
-        <Order
-          parcelId="ID:SWP001"
-          status="In transit"
-          date="7/29/2024"
-          receiver="John Doe"
-          weight="2.5kg"
-          location="1600 Amphitheatre Parkway, ...        1 Infinite Loop, C..."
-        />
-
-        <Order
-          parcelId="ID:SWP002"
-          status="Delivered"
-          date="7/28/2024"
-          receiver="Jane Smith"
-          weight="1kg"
-          location="221B Baker Street, Lon ...        10 Downing Street, Lon..."
-        />
-
-        <Order
-          parcelId="ID:SWP003"
-          status="Delayed"
-          date="7/27/2024"
-          receiver="Emily White"
-          weight="0.5kg"
-          location="Statue of Liberty, Ne...        Empire State Building, N..."
-        />
-
-        <Order
-          parcelId="ID:SWP004"
-          status="Pending"
-          date="7/26/2024"
-          receiver="Michael Brown"
-          weight="3.2kg"
-          location="Sydney Opera House, Syd...        Bondi Beach, Sydne..."
-        />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {loading && <div>Loading...</div>}
+        {error && <div className="text-red-500">{error}</div>}
+        {!loading && !error && parcels.length === 0 && (
+          <div>No orders found.</div>
+        )}
+        {!loading &&
+          !error &&
+          parcels.map((parcel) => (
+            <Order
+              key={parcel.id}
+              parcelId={`ID:${parcel.id}`}
+              status={parcel.status}
+              date={
+                parcel.updated_at
+                  ? new Date(parcel.updated_at).toLocaleDateString()
+                  : ""
+              }
+              receiver={parcel.recipient_name}
+              weight={parcel.weight ? `${parcel.weight}kg` : ""}
+              location={`${parcel.pickup_address} ... ${parcel.destination_address}`}
+            />
+          ))}
       </div>
     </div>
   );

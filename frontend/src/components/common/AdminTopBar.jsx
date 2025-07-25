@@ -3,7 +3,7 @@ import Cube from "../../assets/cube.png";
 import { Link } from "react-router-dom";
 
 
-function Topbar() {
+function AdminTopBar() {
   const [isOpen, setIsOpen] = useState(false);
   const [profileImage, setProfileImage] = useState('https://upload.wikimedia.org/wikipedia/en/5/5f/Original_Doge_meme.jpg');
 
@@ -23,23 +23,13 @@ function Topbar() {
     <div className="w-full h-20 flex relative  items-center bg-[#F9F9FA] border-b-[0.3px] border-b-[#d4d4d4cb]">
       <div className="flex justify-between w-full items-center px-4">
         <div className="mb-6 gap-x-2.5">
-          <Link to="/dashboard" className="flex items-center">
+          <div className="flex items-center cursor-pointer">
             <img src={Cube} alt="Deliveroo logo" />
             <h1 className="font-bold text-2xl">Deliveroo</h1>
-          </Link>
+          </div>
         </div>
-        <div
-          className="w-13 h-13 rounded-full cursor-pointer bg-gray-200 flex items-center justify-center overflow-hidden"
-          onClick={toggleProfileDropDown}
-        >
-          <img
-            src={profileImage}
-            alt="Profile"
-            className="w-12 h-12 rounded-full object-cover"
-          />
-        </div>
+       
       </div>
-
       {isOpen && (
         <div className="absolute right-[2%] top-[100%] mt-2 w-[200px] border-[0.8px] border-[#d4d4d4cb] bg-white rounded shadow-md z-10">
           <ul className="py-2">
@@ -61,4 +51,4 @@ function Topbar() {
   );
 }
 
-export default Topbar;
+export default AdminTopBar;

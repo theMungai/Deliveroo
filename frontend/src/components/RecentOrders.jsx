@@ -3,11 +3,32 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 function RecentOrders() {
-  const orders = [
-    { id: 'SWP001', to: 'John Doe', status: 'In Transit', statusColor: 'bg-blue-100 text-blue-700', showArrow: true },
-    { id: 'SWP002', to: 'Jane Smith', status: 'Delivered', statusColor: 'bg-green-100 text-green-700', showArrow: false },
-    { id: 'SWP004', to: 'Emily White', status: 'Delayed', statusColor: 'bg-yellow-100 text-yellow-700', showArrow: false },
-  ];
+  const [orders, setOrders] = React.useState([]);
+  React.useEffect(() => {
+    // Fetch user profile to get user_id
+    fetch('http://127.0.0.1:8000/users/profile')
+      .then(res => res.json())
+      .then(user => {
+        fetch(`http://127.0.0.1:8000/parcels/user/${user.id}`)
+          .then(res => res.json())
+          .then(parcels => {
+            // Sort parcels by updated_at descending (latest first) and take the first 3
+            const latestThree = [...parcels]
+              .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+              .slice(0, 3);
+            setOrders(latestThree);
+          });
+      });
+  }, []);
+
+  const getStatusColor = (status) => {
+    if (status === 'In Transit') return 'bg-blue-100 text-blue-700';
+    if (status === 'Delivered') return 'bg-green-100 text-green-700';
+    if (status === 'Delayed') return 'bg-yellow-100 text-yellow-700';
+    if (status === 'Canceled') return 'bg-red-100 text-red-700';
+    if (status === 'Pending') return 'bg-yellow-50 text-yellow-800';
+    return 'bg-gray-100 text-gray-700';
+  };
 
   return (
     <div className="bg-white p-6 rounded-lg">
@@ -18,12 +39,12 @@ function RecentOrders() {
         {orders.map((order) => (
           <div key={order.id} className="border border-gray-200 p-4 rounded-lg flex justify-between items-center">
             <div>
-              <p className="font-medium text-gray-800">ID: {order.id}</p>
-              {order.to && <p className="text-gray-600 text-sm">To: {order.to}</p>}
+              <p className="font-medium text-gray-800">ID: SWP{order.id}</p>
+              {order.recipient_name && <p className="text-gray-600 text-sm">To: {order.recipient_name}</p>}
             </div>
-            <div className={`flex items-center px-3 py-1 rounded-full text-xs font-semibold ${order.statusColor}`}>
+            <div className={`flex items-center px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(order.status)}`}>
               {order.status}
-              {order.showArrow && <FontAwesomeIcon icon={faArrowRight} className="ml-2 text-sm" />}
+              {order.status === 'In Transit' && <FontAwesomeIcon icon={faArrowRight} className="ml-2 text-sm" />}
             </div>
           </div>
         ))}
