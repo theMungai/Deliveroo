@@ -33,7 +33,7 @@ export default function ShippingDetails() {
     "Kisumu",
     "Eldoret",
     "Nakuru",
-    "Nyeri"
+    "Nyeri",
   ];
 
   const destError = !newDestination.trim()
@@ -110,29 +110,30 @@ export default function ShippingDetails() {
   }
 
   function handleConfirmCancel() {
-    const token = localStorage.getItem("token");
-    if (!token) return alert("You must be logged in.");
+  const token = localStorage.getItem("token");
+  if (!token) return alert("You must be logged in.");
 
-    fetch(`https://deliveroo-yptw.onrender.com/parcels/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ status: "Cancelled" }),
+  fetch(`https://deliveroo-yptw.onrender.com/parcels/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ status: "Cancelled" }),
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("Failed to cancel order");
+      return res.json();
     })
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to cancel order");
-        return res.json();
-      })
-      .then((updatedParcel) => {
-        setParcel(updatedParcel);
-        setCancelModalOpen(false);
-      })
-      .catch(() => {
-        alert("Could not cancel order.");
-      });
-  }
+    .then((updatedParcel) => {
+      setParcel(updatedParcel); // Or remove from list if applicable
+      setCancelModalOpen(false);
+    })
+    .catch(() => {
+      alert("Could not cancel order.");
+    });
+}
+
 
   if (loading) return <div className="p-8">Loading...</div>;
   if (error) return <div className="p-8 text-red-500">{error}</div>;

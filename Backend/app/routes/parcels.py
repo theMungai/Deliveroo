@@ -86,16 +86,18 @@ def update_parcel(id: int, updated_parcel: ParcelUpdate, db: Session = Depends(g
 
 
 
-@router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_parcel(id: int, db: Session = Depends(get_db)):
+@router.patch("/{id}", response_model=ParcelOut)
+def update_parcel(id: int, parcel_data: ParcelUpdate, db: Session = Depends(get_db)):
     parcel = db.query(Parcel).filter(Parcel.id == id).first()
+    if not parcel:
+        raise HTTPException(status_code=404, detail="Parcel not found")
 
-    if parcel is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Parcel with id {id} was not found."
-        )
+    for key, value in parcel_data.dict(exclude_unset=True).items():
+        setattr(parcel, key, value)
 
-    db.delete(parcel)
     db.commit()
-    return Response(status_code=status.HTTP_204_NO_CONTENT)
+    db.refresh(parcel)
+    return parcel
+    # return {"msg": f"Parcel {id} was updated"}
+
+
