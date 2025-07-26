@@ -96,8 +96,8 @@ export default function ShippingDetails() {
       },
       body: JSON.stringify({
       destination_address: newDestination,
-      destination_lat: newCoords[0],  // Make sure these values exist
-      destination_lng: newCoords[1],
+      destination_lat: parcel.destination_lat,  
+      destination_lng: parcel.destination_lng,
     }),
     })
       .then((res) => {
