@@ -22,6 +22,7 @@ export default function ShippingDetails() {
 
   const [isChangeModalOpen, setChangeModalOpen] = useState(false);
   const [newDestination, setNewDestination] = useState("");
+  const [newCoords, setNewCoords] = useState([null, null]);
   const [destTouched, setDestTouched] = useState(false);
   const [isCancelModalOpen, setCancelModalOpen] = useState(false);
 
@@ -93,7 +94,11 @@ export default function ShippingDetails() {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ destination_address: newDestination }),
+      body: JSON.stringify({
+      destination_address: newDestination,
+      destination_lat: newCoords[0],  // Make sure these values exist
+      destination_lng: newCoords[1],
+    }),
     })
       .then((res) => {
         if (!res.ok) throw new Error("Failed to update destination");
