@@ -18,7 +18,7 @@ function Order({ parcelId, status, date, receiver, location, weight }) {
     case "In Transit":
       statusColor = "bg-[#DBEAFE] text-[#344BB3]";
       break;
-    case "Canceled":
+    case "Cancelled":
       statusColor = "bg-[#FFC5C5] text-[#FF0000]";
       break;
     default:

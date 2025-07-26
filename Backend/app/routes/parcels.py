@@ -95,9 +95,11 @@ def update_parcel(id: int, parcel_data: ParcelUpdate, db: Session = Depends(get_
     for key, value in parcel_data.dict(exclude_unset=True).items():
         setattr(parcel, key, value)
 
+    print(f"PATCH /parcels/{id} - data: {parcel_data}")
     db.commit()
     db.refresh(parcel)
     return parcel
+    
     # return {"msg": f"Parcel {id} was updated"}
 
 

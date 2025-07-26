@@ -90,6 +90,8 @@ function OrderForm() {
           price: price,
           // weight_category_id: 1
         };
+        console.log("Payload being sent:", payload);
+        
         fetch("https://deliveroo-yptw.onrender.com/parcels", {
           method: "POST",
           headers: {
