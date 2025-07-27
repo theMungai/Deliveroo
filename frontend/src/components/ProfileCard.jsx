@@ -89,7 +89,7 @@ function ProfileCard() {
         {/* Left column */}
         <div className="space-y-6 md:col-span-1">
           {/* Profile Card */}
-          <div className="bg-white p-6 rounded-lg shadow text-center">
+          <div className="bg-white p-6 max-xs:p-1.5 xs:p-1.5 sm:p-2.5 md:p-6  rounded-lg shadow text-center">
             <img
               src={profileImage}
               alt="Profile"

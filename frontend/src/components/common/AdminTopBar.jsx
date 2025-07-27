@@ -1,23 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Cube from "../../assets/cube.png";
 import { Link } from "react-router-dom";
 
 
 function AdminTopBar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [profileImage, setProfileImage] = useState('https://upload.wikimedia.org/wikipedia/en/5/5f/Original_Doge_meme.jpg');
 
-  useEffect(() => {
-    // Try to get profile image from localStorage
-    const storedImage = localStorage.getItem('profileImage');
-    if (storedImage) {
-      setProfileImage(storedImage);
-    }
-  }, []);
-
-  function toggleProfileDropDown() {
-    setIsOpen((prev) => !prev);
-  }
 
   return (
     <div className="w-full h-20 flex relative  items-center bg-[#F9F9FA] border-b-[0.3px] border-b-[#d4d4d4cb]">
@@ -30,7 +17,7 @@ function AdminTopBar() {
         </div>
        
       </div>
-      {isOpen && (
+
         <div className="absolute right-[2%] top-[100%] mt-2 w-[200px] border-[0.8px] border-[#d4d4d4cb] bg-white rounded shadow-md z-10">
           <ul className="py-2">
             <Link to="/profile">
@@ -46,7 +33,7 @@ function AdminTopBar() {
             </Link>
           </ul>
         </div>
-      )}
+      
     </div>
   );
 }
