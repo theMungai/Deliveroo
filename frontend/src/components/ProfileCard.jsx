@@ -85,7 +85,7 @@ function ProfileCard() {
   return (
     <div className="p-6">
      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-xs:p-1.5 xs:p-1.5 sm:p-2.5 md:p-6">
         {/* Left column */}
         <div className="space-y-6 md:col-span-1">
           {/* Profile Card */}
