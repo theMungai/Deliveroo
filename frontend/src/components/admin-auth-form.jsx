@@ -107,7 +107,7 @@ const Admin_AuthForm = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
-      <div className="w-full max-w-sm bg-white shadow-md rounded-xl p-6">
+      <div className="w-full max-w-sm max-xs:mx-5 bg-white shadow-md rounded-xl p-6">
         {successMsg && (
           <div className="mb-4 text-green-600 text-center font-semibold">
             {successMsg}
@@ -145,8 +145,8 @@ const Admin_AuthForm = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {authType === "signup" && (
-            <div className="flex gap-2">
-              <div className="w-1/2">
+            <div className="flex gap-2 max-xs:flex-col ">
+              <div className="w-1/2 max-xs:w-full">
                 <input
                   type="text"
                   name="firstName"
@@ -163,7 +163,7 @@ const Admin_AuthForm = () => {
                   </p>
                 )}
               </div>
-              <div className="w-1/2">
+              <div className="w-1/2 max-xs:w-full mt-2">
                 <input
                   type="text"
                   name="lastName"
