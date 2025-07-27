@@ -226,6 +226,12 @@ function OrderForm() {
               Weight exceeds 25kg limit. Please adjust.
             </p>
           )}
+          <div className="mt-3 text-xs text-gray-600">
+            <p><strong>Pricing:</strong></p>
+            <p>• Light (0-5kg): KShs. 300</p>
+            <p>• Medium (5.1-15kg): KShs. 500</p>
+            <p>• Heavy (15.1-25kg): KShs. 1000</p>
+          </div>
         </div>
 
         <button className="bg-[#73C322] text-white p-3 rounded-[8px] cursor-pointer">
