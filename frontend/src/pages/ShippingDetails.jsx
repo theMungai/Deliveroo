@@ -95,10 +95,10 @@ export default function ShippingDetails() {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-      destination_address: newDestination,
-      destination_lat: parcel.destination_lat,  
-      destination_lng: parcel.destination_lng,
-    }),
+        destination_address: newDestination,
+        destination_lat: parcel.destination_lat,
+        destination_lng: parcel.destination_lng,
+      }),
     })
       .then((res) => {
         if (!res.ok) throw new Error("Failed to update destination");
@@ -115,30 +115,29 @@ export default function ShippingDetails() {
   }
 
   function handleConfirmCancel() {
-  const token = localStorage.getItem("token");
-  if (!token) return alert("You must be logged in.");
+    const token = localStorage.getItem("token");
+    if (!token) return alert("You must be logged in.");
 
-  fetch(`https://deliveroo-yptw.onrender.com/parcels/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ status: "Cancelled" }),
-  })
-    .then((res) => {
-      if (!res.ok) throw new Error("Failed to cancel order");
-      return res.json();
+    fetch(`https://deliveroo-yptw.onrender.com/parcels/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ status: "Cancelled" }),
     })
-    .then((updatedParcel) => {
-      setParcel(updatedParcel); // Or remove from list if applicable
-      setCancelModalOpen(false);
-    })
-    .catch(() => {
-      alert("Could not cancel order.");
-    });
-}
-
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to cancel order");
+        return res.json();
+      })
+      .then((updatedParcel) => {
+        setParcel(updatedParcel); // Or remove from list if applicable
+        setCancelModalOpen(false);
+      })
+      .catch(() => {
+        alert("Could not cancel order.");
+      });
+  }
 
   if (loading) return <div className="p-8">Loading...</div>;
   if (error) return <div className="p-8 text-red-500">{error}</div>;
@@ -183,24 +182,27 @@ export default function ShippingDetails() {
         <div className="flex h-screen relative font-sans bg-gray-100 overflow-hidden">
           <div className="flex-1 flex flex-col h-full">
             <main className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                {/* Title and Tracking ID */}
                 <div>
                   <h2 className="text-2xl font-bold">Shipment Details</h2>
                   <p className="text-gray-600 font-medium">
                     Tracking ID: {parcel.id}
                   </p>
                 </div>
-                <div className="flex gap-4 w-full md:w-auto">
+
+                {/* Buttons */}
+                <div className="flex flex-col sm:flex-row w-full md:w-auto gap-4">
                   <button
                     onClick={() => setChangeModalOpen(true)}
-                    className="flex-1 flex items-center justify-center gap-2 rounded bg-gray-200 px-4 py-2 font-medium md:flex-none"
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 rounded bg-gray-200 px-4 py-3 font-medium"
                   >
                     <PencilSquareIcon className="h-5 w-5" />
                     Change Destination
                   </button>
                   <button
                     onClick={() => setCancelModalOpen(true)}
-                    className="flex-1 flex items-center justify-center gap-2 rounded bg-red-600 px-4 py-2 font-medium text-white md:flex-none"
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 rounded bg-red-600 px-4 py-3 font-medium text-white"
                   >
                     <XMarkIcon className="h-5 w-5" />
                     Cancel Order
