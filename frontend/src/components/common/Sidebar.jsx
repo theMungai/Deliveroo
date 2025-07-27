@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Grid, PlusCircle, User, LogOut } from "react-feather";
 import Cube from "../../assets/cube.png";
 
-function Sidebar() {
+function Sidebar({ closeSidebar }) {
   const navItems = [
     { to: "/dashboard", label: "Dashboard", icon: Grid },
     { to: "/new-order", label: "New Order", icon: PlusCircle },
@@ -11,38 +11,40 @@ function Sidebar() {
   ];
 
   return (
-    <div className="basis-[16%] relative px-4 py-6 h-full min-h-screen bg-[#09090B] text-white">
-      <div className="mb-6 gap-x-2.5">
-        <Link to="/dashboard" className="flex items-center">
-          <img src={Cube} alt="Deliveroo logo" />
-          <h1 className="font-bold text-2xl">Deliveroo</h1>
-        </Link>
-      </div>
+    <div className="w-[60px] sm:w-[200px] min-h-screen bg-[#09090B] text-white py-6 flex flex-col items-center sm:items-start px-2 sm:px-4 relative transition-all duration-300">
 
-      <nav>
-        <ul>
-          {navItems.map(({ to, label, icon: Icon }) => {
-            return (
-              <li
-                key={label}
-                className="cursor-pointer hover:bg-[#18181A] p-2 mb-5"
-              >
-                <Link to={to} className="flex items-center space-x-2">
-                  <Icon />
-                  <span>{label}</span>
-                </Link>
-              </li>
-            );
-          })}
+      {/* Logo */}
+      <Link to="/dashboard" onClick={closeSidebar} className="mb-10" title="Home">
+        <img src={Cube} alt="Deliveroo logo" className="w-6 h-6" />
+      </Link>
+
+      {/* Navigation */}
+      <nav className="flex-1">
+        <ul className="space-y-6">
+          {navItems.map(({ to, label, icon: Icon }) => (
+            <li key={label}>
+              <Link to={to} onClick={closeSidebar} className="hover:bg-[#18181A] p-2 w-full rounded flex items-center space-x-2" title={label}>
+                <Icon size={22} />
+                 <span className="hidden sm:inline">{label}</span>
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
 
-      <button className="text-sm hover:bg-[#18181A] w-[90%] cursor-pointer absolute bottom-5  p-2">
-        <Link to="/" className="flex items-center space-x-2">
-          <LogOut className="mx-3" />
-          Logout
+      {/* Logout */}
+      <div className="absolute bottom-5">
+        <Link
+          to="/"
+          onClick={closeSidebar}
+          className="hover:bg-[#18181A] p-2 rounded flex items-center space-x-2"
+          title="Logout"
+        >
+          <LogOut size={22} />
+          <span className="hidden sm:inline">Logout</span>
+          
         </Link>
-      </button>
+      </div>
     </div>
   );
 }

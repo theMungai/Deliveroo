@@ -117,7 +117,7 @@ function OrderForm() {
   }
 
   return (
-    <div className="rounded-[10px] bg-white border-[0.5px] border-[#d4d4d4cb] w-[55%] mx-auto my-5 px-10 py-6">
+    <div className="rounded-[10px] bg-white border-[0.5px] border-[#d4d4d4cb] w-[55%] max-xs:w-full sm:w-[65%] md:w-[55%]  mx-auto my-5 p-6">
       <h1 className="font-[600] text-[28px]">Create a New Parcel Order</h1>
       <p className="text-[15px] text-[#7a7a82] mb-8">
         Fill in the details below to create a new delivery.
@@ -144,7 +144,7 @@ function OrderForm() {
         </div>
 
         {/* Pickup and Destination */}
-        <div className="flex gap-x-8 justify-between">
+        <div className="flex gap-x-8 max-xs:flex-col max-xs:gap-6 justify-between">
           {/* Pickup */}
           <div className="mb-8 basis-1/2">
             <label htmlFor="pickupAddress">

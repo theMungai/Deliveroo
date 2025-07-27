@@ -56,7 +56,9 @@ function Order({ parcelId, status, date, receiver, location, weight }) {
       </div>
 
       <button className="w-full py-2.5 bg-[#F9F9FA] text-[#7a7a82] cursor-pointer border-[0.8px] rounded-[6px] border-[#d4d4d4cb] hover:border-[#73C322] hover:text-[#73C322]">
-        <Link to={`/shipping-details/${parcelId.replace('ID:', '')}`}>View Details</Link>
+        <Link to={`/shipping-details/${parcelId.replace("ID:", "")}`}>
+          View Details
+        </Link>
       </button>
     </div>
   );
@@ -114,7 +116,7 @@ function UserDash() {
               setLoading(false);
             })
             .catch((err) => {
-              setError("Failed to fetch parcels");
+              setError("Failed to fetch parcels", err);
               setLoading(false);
             });
         } else {
@@ -123,7 +125,7 @@ function UserDash() {
         }
       })
       .catch((err) => {
-        setError("Failed to fetch user profile");
+        setError("Failed to fetch user profile", err);
         setLoading(false);
       });
   };
@@ -135,10 +137,13 @@ function UserDash() {
   }, []);
 
   return (
-    <div className="p-8">
-      <div className="flex justify-between items-center mb-12">
-        <h1 className="font-[800] text-[36px]">Your parcels</h1>
-        <button className="bg-[#73C322] text-white p-3 rounded-[8px] cursor-pointer">
+    <div className="p-6">
+      <div className="flex flex-col md:flex-row justify-between items-center mb-12">
+        <h1 className="font-extrabold text-2xl sm:text-3xl md:text-4xl mb-5 md:mb-0">
+          Your parcels
+        </h1>
+
+        <button className="bg-[#73C322] text-white p-3 rounded-[8px] w-full sm:w-auto flex justify-center">
           <Link to="/new-order" className="flex items-center gap-x-3">
             <PlusCircle />
             Create New Order
