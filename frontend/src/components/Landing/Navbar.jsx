@@ -18,7 +18,7 @@ function Navbar() {
   const navItem = navItems.map((item) => (
     <li
       key={item}
-      className="lg:mr-6 xl:mr-3 2xl:mr-6 max-xs:mb-6 xs:mb-6 sm:mb-8 md:mb-8 lg:mb-8 cursor-pointer relative after:content-[''] after:absolute after:left-0 after:bottom-[-5px] hover:text-[#73C322]
+      className="lg:mr-6 xl:mr-3 2xl:mr-6 max-xs:mb-6 xs:mb-6 sm:mb-8 md:mb-8 lg:mb-2 cursor-pointer relative after:content-[''] after:absolute after:left-0 after:bottom-[-5px] hover:text-[#73C322]
                     after:h-[3px] after:rounded-[7px] after:w-0 after:bg-[#73C322]
                     hover:after:w-full focus:after:w-full
                     aria-[current='page']:after:w-full aria-[current='page']:text-[#73C322]
@@ -36,7 +36,7 @@ function Navbar() {
              2xl:px-[80px]
              xl:px-5
              lg:px-5
-             md:px-3 md:py-4
+             md:px-3 md:py-1
              sm:px-3 sm:py-3
              xs:px-3 xs:py-3
              max-xs:px-3 max-xs:py-3"
@@ -63,7 +63,7 @@ function Navbar() {
 
       {/* Sidebar Menu (for small screens) */}
       <div
-        className={`fixed top-0 left-0 z-50 w-1/4 max-xs:w-2/3 xs:w-2/3 sm:w-1/2 md:w-1/4  lg:w-1/4 h-full overflow-y-auto bg-white shadow transition-transform duration-700 ease-in-out transform ${
+        className={`fixed top-0 left-0 z-50 w-1/4 max-xs:w-1/2 xs:w-1/2 sm:w-1/4 md:w-1/4  lg:w-1/4 h-full overflow-y-auto bg-white shadow transition-transform duration-700 ease-in-out transform ${
           menuOpen ? "-translate-x-0" : "-translate-x-[120%]"
         }`}
       >
@@ -93,7 +93,7 @@ function Navbar() {
       </div>
 
       {/* Menu Items for larger screens */}
-      <ul className="flex gap-10 font-light p-8 max-xs:hidden xs:hidden sm:hidden md:hidden lg:flex ">
+      <ul className="flex gap-10 items-center font-light px-4 max-xs:hidden xs:hidden sm:hidden md:hidden lg:flex ">
         {navItem}
       </ul>
 

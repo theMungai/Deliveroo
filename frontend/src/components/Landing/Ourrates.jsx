@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 function Rate({ category, price, weight }) {
   return (
-    <div className="bg-white rounded-[10px] shadow hover:border-2 hover:border-[#73C322] p-8 basis-1/3">
+    <div className="bg-white rounded-[10px] shadow hover:border-2 hover:border-[#73C322] p-8 basis-1/3 px-10 py-5 sm:px-5 sm:py-2.5 md:px-10 md:py-5">
       <h2 className="font-[700] text-xl mb-4">{category}</h2>
       <h1 className="font-[900] text-2xl mb-4">
         Ksh.{price}
@@ -41,7 +41,7 @@ const Ourrates = () => {
       <p className="font-[500] text-[16px] mb-12 text-center">
         Transparent and competitive pricing for all your needs
       </p>
-      <div className="flex w-[80%] mx-auto justify-between gap-x-8">
+      <div className="flex w-[80%] mx-auto justify-between gap-10 max-xs:flex-col xs:flex-col sm:flex-row sm:w-[90%] md:w-4/5">
         <Rate category="Light Weight" price={300} weight={5} />
         <Rate category="Medium Weight" price={500} weight={15} />
         <Rate category="Heavy Weight" price={1000} weight={25} />

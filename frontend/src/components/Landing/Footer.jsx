@@ -1,7 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faArrowRightLong,faCity,faEnvelope,faPhone} from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRightLong,
+  faCity,
+  faEnvelope,
+  faPhone,
+} from "@fortawesome/free-solid-svg-icons";
 import cube from "../../assets/cube.png";
 
 const Footer = () => {
@@ -42,7 +47,7 @@ const Footer = () => {
   return (
     <>
       <div className="contact-us bg-[#09090B]">
-        <div className="flex justify-between text-white  px-[100px] py-[50px] w-full">
+        <div className="flex justify-between text-white  px-[100px] py-[50px] w-full max-xs:flex-col max-xs:px-5 max-xs:gap-y-10 sm:px-[30px] xs:grid xs:grid-cols-2 xs:gap-10 xs:px-[25px] sm:flex md:px-[100px] ">
           <div>
             <div className="flex items-center gap-x-3.5">
               <img src={cube} alt="" />
@@ -64,8 +69,8 @@ const Footer = () => {
               <span className="text-[#73C322B8]">your goods</span>
             </p>
 
-            <button className="bg-[#73C322] text-white mt-5 py-2 px-5 rounded-[6px]  absolute right-0 cursor-pointer group">
-              <Link to="/user-signup" className = 'flex items-center gap-x-2.5'>
+            <button className="bg-[#73C322] max-xs:w-[75%] max-xs:py-3.5 max-xs:relative max-xs:left-1/2 max-xs:transform max-xs:-translate-x-1/2 text-white mt-5 py-2 px-5 rounded-[6px]  absolute right-0 cursor-pointer group">
+              <Link to="/user-signup" className="flex items-center gap-x-2.5 max-xs:justify-center">
                 Start Now
                 <FontAwesomeIcon
                   icon={faArrowRightLong}
@@ -75,7 +80,7 @@ const Footer = () => {
             </button>
           </div>
         </div>
-        <div className="flex justify-center p-4 text-white">
+        <div className="flex justify-center p-4 text-white max-xs:mt-10 max-xs:text-[16px]">
           <p>© 2025 Deliveroo. All rights reserved.</p>
         </div>
       </div>
