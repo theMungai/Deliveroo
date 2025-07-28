@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const Heropage = () => {
   return (
     <div className="heropage bg-white p-6 py-8 mt-[180px] max-xs:mt-[100px] xs:mt-[120px] md:mt-[120px]lg:mt-[180px] ">
-      <div className="flex justify-between max-xs:mx-[0px] sm:mx-[0px] sm:gap-0 gap-[30px] max-xs:flex-col-reverse xs:flex-col-reverse sm:flex-row">
+      <div className="flex justify-between max-xs:mx-[0px] sm:mx-[0px] md:mx-[130px] sm:gap-0 gap-[30px] max-xs:flex-col-reverse xs:flex-col-reverse sm:flex-row">
         <div className="basis-[65%] space-y-7 space-x-6 sm:basis-[55%]">
           <h1 className="text-5xl sm:text-[36px] max-xs:text-[32px] font-[1000]">
             We will <span className="text-[#73C322]">Deliver</span> your <br />
