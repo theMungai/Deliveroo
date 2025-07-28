@@ -6,6 +6,7 @@ const Admin_AuthForm = () => {
   const [authType, setAuthType] = useState("login");
   const navigate = useNavigate();
   const [successMsg, setSuccessMsg] = useState("");
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -45,64 +46,67 @@ const Admin_AuthForm = () => {
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-    } else {
-      if (authType === "signup") {
-        // Admin signup API call
-        fetch("https://deliveroo-yptw.onrender.com/admins/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+      return;
+    }
+
+    setLoading(true);
+
+    const url =
+      authType === "signup"
+        ? "https://deliveroo-yptw.onrender.com/admins/register"
+        : "https://deliveroo-yptw.onrender.com/admins/login";
+
+    const payload =
+      authType === "signup"
+        ? {
             first_name: formData.firstName,
             last_name: formData.lastName,
             email: formData.email,
             password: formData.password,
-          }),
-        })
-          .then((res) => {
-            if (!res.ok) throw new Error("Signup failed");
-            return res.json();
-          })
-          .then(() => {
-            setSuccessMsg("Account created successfully!");
-            setTimeout(() => {
-              setAuthType("login");
-              setSuccessMsg("");
-            }, 1500);
-          })
-          .catch(() => {
-            setErrors({ email: "Signup failed. Try again." });
-          });
-      } else {
-        // Admin login API call
-        fetch("https://deliveroo-yptw.onrender.com/admins/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+          }
+        : {
             email: formData.email,
             password: formData.password,
-          }),
-        })
-          .then((res) => {
-            if (!res.ok) throw new Error("Login failed");
-            return res.json();
-          })
-          .then(() => {
-            alert("Logged in successfully!");
-            navigate("/admin");
-          })
-          .catch(() => {
-            setErrors({ email: "Login failed. Check credentials." });
-          });
-      }
-      // Reset
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        cpassword: "",
+          };
+
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Auth failed");
+        return res.json();
+      })
+      .then((data) => {
+        if (authType === "login") {
+          alert("Logged in successfully!");
+          navigate("/admin");
+        } else {
+          setSuccessMsg("Account created successfully!");
+          setTimeout(() => {
+            setAuthType("login");
+            setSuccessMsg("");
+          }, 1500);
+        }
+      })
+      .catch(() => {
+        setErrors({
+          email: `${
+            authType === "signup" ? "Signup" : "Login"
+          } failed. Try again.`,
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+          cpassword: "",
+        });
       });
-    }
   };
 
   return (
@@ -122,14 +126,11 @@ const Admin_AuthForm = () => {
         </div>
 
         <div className="relative flex mb-4 bg-gray-100 p-1 rounded-lg">
-          {/* Sliding indicator */}
           <div
             className={`absolute top-1 bottom-1 w-1/2 rounded-[5px] bg-white shadow transition-transform duration-300 ease-in-out ${
               authType === "signup" ? "translate-x-full" : "translate-x-0"
             }`}
           />
-
-          {/* Tab buttons */}
           {["login", "signup"].map((type) => (
             <button
               key={type}
@@ -145,7 +146,7 @@ const Admin_AuthForm = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {authType === "signup" && (
-            <div className="flex gap-2 max-xs:flex-col ">
+            <div className="flex gap-2 max-xs:flex-col">
               <div className="w-1/2 max-xs:w-full">
                 <input
                   type="text"
@@ -233,9 +234,12 @@ const Admin_AuthForm = () => {
 
           <button
             type="submit"
-            className="w-full py-2 px-4 rounded-md bg-lime-500 text-white text-sm font-semibold hover:bg-lime-600"
-            disabled={!!successMsg}
+            className="w-full py-2 px-4 rounded-md bg-lime-500 text-white text-sm font-semibold hover:bg-lime-600 flex items-center justify-center gap-2 disabled:opacity-60"
+            disabled={!!successMsg || loading}
           >
+            {loading && (
+              <span className="animate-spin inline-block h-4 w-4 border-[2px] border-white border-t-transparent rounded-full"></span>
+            )}
             {authType === "login" ? "Login" : "Create Account"}
           </button>
         </form>

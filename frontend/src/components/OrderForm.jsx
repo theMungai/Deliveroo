@@ -4,6 +4,7 @@ import { faTruckFast } from "@fortawesome/free-solid-svg-icons";
 
 function OrderForm() {
   const [weight, setWeight] = useState("");
+  const [loading, setLoading] = useState(false);
   const ORIGIN_COORDS = [-1.127758, 36.939684];
   const DEST_COORDS = {
     "Nyeri": [-0.416665, 36.9499962],
@@ -23,11 +24,8 @@ function OrderForm() {
 
   const calculatePrice = () => {
     const weightValue = parseFloat(weight);
-
     if (!weight || isNaN(weightValue) || weightValue <= 0) return 0;
-
     if (weightValue > 25) return null;
-
     if (weightValue <= 5) return 300;
     else if (weightValue <= 15) return 500;
     else return 1000;
@@ -51,7 +49,6 @@ function OrderForm() {
 
   function handleSubmit(e) {
     e.preventDefault();
-
     const price = calculatePrice();
 
     if (price === null) {
@@ -59,12 +56,14 @@ function OrderForm() {
       return;
     }
 
-    // Get token and user id
     const token = localStorage.getItem("token");
     if (!token) {
       alert("You must be logged in to create an order.");
       return;
     }
+
+    setLoading(true);
+
     fetch("https://deliveroo-yptw.onrender.com/users/profile", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -88,11 +87,9 @@ function OrderForm() {
           destination_lng: orderForm.destinationCoords[1],
           weight: parseFloat(weight),
           price: price,
-          // weight_category_id: 1
         };
-        console.log("Payload being sent:", payload);
-        
-        fetch("https://deliveroo-yptw.onrender.com/parcels", {
+
+        return fetch("https://deliveroo-yptw.onrender.com/parcels", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -100,24 +97,34 @@ function OrderForm() {
             Accept: "application/json",
           },
           body: JSON.stringify(payload),
-        })
-          .then((res) => {
-            if (!res.ok) throw new Error("Failed to create parcel");
-            return res.json();
-          })
-          .then((data) => {
-            console.log("Order successfully submitted:", data);
-            alert("Parcel order created successfully!");
-          })
-          .catch((error) => {
-            console.error("Error submitting order:", error);
-            alert("Something went wrong. Please try again.");
-          });
+        });
+      })
+      .then((res) => {
+        if (!res?.ok) throw new Error("Failed to create parcel");
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Order successfully submitted:", data);
+        alert("Parcel order created successfully!");
+        setOrderForm((prev) => ({
+          ...prev,
+          recipientName: "",
+          destinationAddress: "",
+          destinationCoords: [],
+        }));
+        setWeight("");
+      })
+      .catch((error) => {
+        console.error("Error submitting order:", error);
+        alert("Something went wrong. Please try again.");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }
 
   return (
-    <div className="rounded-[10px] bg-white border-[0.5px] border-[#d4d4d4cb] w-[55%] max-xs:w-full sm:w-[65%] md:w-[55%]  mx-auto my-5 p-6">
+    <div className="rounded-[10px] bg-white border-[0.5px] border-[#d4d4d4cb] w-[55%] max-xs:w-full sm:w-[65%] md:w-[55%] mx-auto my-5 p-6">
       <h1 className="font-[600] text-[28px]">Create a New Parcel Order</h1>
       <p className="text-[15px] text-[#7a7a82] mb-8">
         Fill in the details below to create a new delivery.
@@ -145,7 +152,6 @@ function OrderForm() {
 
         {/* Pickup and Destination */}
         <div className="flex gap-x-8 max-xs:flex-col max-xs:gap-6 justify-between">
-          {/* Pickup */}
           <div className="mb-8 basis-1/2">
             <label htmlFor="pickupAddress">
               Pickup Address
@@ -163,7 +169,6 @@ function OrderForm() {
             </label>
           </div>
 
-          {/* Destination */}
           <div className="mb-8 basis-1/2">
             <label htmlFor="destinationAddress">
               Destination Address
@@ -234,8 +239,15 @@ function OrderForm() {
           </div>
         </div>
 
-        <button className="bg-[#73C322] text-white p-3 rounded-[8px] cursor-pointer">
-          Create Order
+        <button
+          type="submit"
+          className="bg-[#73C322] text-white p-3 rounded-[8px] cursor-pointer flex items-center justify-center gap-2 disabled:opacity-60"
+          disabled={loading}
+        >
+          {loading && (
+            <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+          )}
+          {loading ? "Submitting..." : "Create Order"}
         </button>
       </form>
     </div>

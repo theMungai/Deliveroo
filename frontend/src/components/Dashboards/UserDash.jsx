@@ -64,7 +64,6 @@ function Order({ parcelId, status, date, receiver, location, weight }) {
   );
 }
 
-// ✅ Main component
 function UserDash() {
   const [parcels, setParcels] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -152,7 +151,11 @@ function UserDash() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {loading && <div>Loading...</div>}
+        {loading && (
+          <div className="flex justify-center items-center relative h-[60vh] w-[80vw]">
+            <div className="animate-spin rounded-full h-13 w-13 border-t-3 border-b-3 border-[#73C322]"></div>
+          </div>
+        )}
         {error && <div className="text-red-500">{error}</div>}
         {!loading && !error && parcels.length === 0 && (
           <div>No orders found.</div>
