@@ -65,7 +65,7 @@ function AdminDash() {
   );
 
   return (
-    <div className="mx-auto my-12 px-4 w-full max-w-[1400px]">
+    <div className="mx-auto my-12 px-1 max-w-[100%] overflow-x-hidden">
       <h1 className="text-[22px] font-[700]">Admin Panel</h1>
       <p className="mb-6 text-[16px] font-[400]">
         Manage all parcel deliveries
@@ -117,8 +117,8 @@ function AdminDash() {
         {/* Table */}
         {!loading && !error && (
           <>
-            <div className="w-full overflow-x-auto">
-              <div className="min-w-[900px]">
+            <div className="w-full overflow-x-auto ">
+              <div className="max-sm:max-w-[90px] md:min-w-[900px]">
                 <table className="w-full text-sm rounded-[8px] table-auto border border-[#E5E5E5]">
                   <thead>
                     <tr className="border-b border-[#E5E5E5]">
