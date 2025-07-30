@@ -1,12 +1,13 @@
-import React from 'react'
+import React from 'react';
 
 function Footer() {
   return (
-    <div className="w-full bg-[#e7e7e7] text-[#464646] text-xs flex justify-center items-center h-10">
-      <p className="text-[16px] max-xs:text-xs">&#169; 2025 Deliveroo. All Rights Reserved</p>
-    </div>
+    <footer className="w-full bg-[#e7e7e7] text-[#464646] text-xs flex justify-center items-center h-10">
+      <p className="text-sm sm:text-xs">
+        &#169; 2025 Deliveroo. All Rights Reserved
+      </p>
+    </footer>
   );
 }
 
-
-export default Footer
+export default Footer;

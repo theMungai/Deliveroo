@@ -11,7 +11,7 @@ function Sidebar({ closeSidebar }) {
   ];
 
   return (
-    <div className="w-[60px] sm:w-[200px] min-h-screen bg-[#09090B] text-white py-6 flex flex-col items-center sm:items-start px-2 sm:px-4 relative transition-all duration-300">
+    <div className="w-[80px] md:w-[160px] min-h-screen bg-[#09090B] text-white py-4 flex flex-col items-center sm:items-start px-0 sm:px-4 fixed left-0 top-0 z-60 ">
 
       {/* Logo */}
       <Link to="/dashboard" onClick={closeSidebar} className="mb-10" title="Home">
@@ -25,7 +25,7 @@ function Sidebar({ closeSidebar }) {
             <li key={label}>
               <Link to={to} onClick={closeSidebar} className="hover:bg-[#18181A] p-2 w-full rounded flex items-center space-x-2" title={label}>
                 <Icon size={22} />
-                 <span className="hidden sm:inline">{label}</span>
+                 <span className="max-md:hidden md:inline text-sm">{label}</span>
               </Link>
             </li>
           ))}
@@ -41,7 +41,7 @@ function Sidebar({ closeSidebar }) {
           title="Logout"
         >
           <LogOut size={22} />
-          <span className="hidden sm:inline">Logout</span>
+          <span className="max-md:hidden md:inline">Logout</span>
           
         </Link>
       </div>

@@ -136,7 +136,7 @@ function UserDash() {
   }, []);
 
   return (
-    <div className="p-6">
+    <div className="mx-4 my-12 px-1 max-w-[100%] relative left-1/2 transform -translate-x-1/2 overflow-x-hidden">
       <div className="flex flex-col md:flex-row justify-between items-center mb-12">
         <h1 className="font-extrabold text-2xl sm:text-3xl md:text-4xl mb-5 md:mb-0">
           Your parcels

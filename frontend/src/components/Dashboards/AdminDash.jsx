@@ -65,7 +65,7 @@ function AdminDash() {
   );
 
   return (
-    <div className="mx-auto my-12 px-1 max-w-[100%] overflow-x-hidden">
+    <div className="mx-4 my-12 px-1 max-w-[100%] relative left-1/2 transform -translate-x-1/2 overflow-x-hidden">
       <h1 className="text-[22px] font-[700]">Admin Panel</h1>
       <p className="mb-6 text-[16px] font-[400]">
         Manage all parcel deliveries

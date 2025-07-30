@@ -7,7 +7,7 @@ const AdminSidebar = ({ closeSidebar }) => {
   const navItems = [{ to: "/admin", label: "Dashboard", icon: Grid }];
 
   return (
-    <div className="w-[50px] sm:w-[250px] min-h-screen bg-[#09090B] text-white py-6 flex flex-col items-center sm:items-start px-2 sm:px-4 relative transition-all duration-300">
+    <div className="w-[50px] md:w-[170px] min-h-screen bg-[#09090B] text-white py-6 flex flex-col items-center sm:items-start px-1 sm:px-4 fixed left-0 top-0 transition-all duration-300">
       {/* Logo */}
       <Link
         to="/admin"
@@ -31,7 +31,7 @@ const AdminSidebar = ({ closeSidebar }) => {
                 title={label}
               >
                 <Icon size={22} />
-                <span className="hidden sm:inline">{label}</span>
+                <span className="hidden md:inline">{label}</span>
               </Link>
             </li>
           ))}

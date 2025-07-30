@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Link as ScrollLink } from "react-scroll";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRightLong,
@@ -30,17 +31,20 @@ const Footer = () => {
   ));
 
   const quickLinks = [
-    { label: "Our Services" },
-    { label: "How it Works" },
-    { label: "Home" },
+    { to: "services", label: "Our Services" },
+    { to: "how-it-works", label: "How it Works" },
+    { to: "heropage", label: "Home" },
   ];
+
 
   const quickLink = quickLinks.map((item) => (
     <li
       key={item}
       className="text-[14px] text-[#FFFFFFB8] hover:text-[#73C322B8] hover:underline cursor-pointer mb-2"
     >
-      {item.label}
+      <ScrollLink to={item.to} smooth={true} duration={800} offset={-225}>
+              {item.label}
+            </ScrollLink>
     </li>
   ));
 

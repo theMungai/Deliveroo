@@ -139,7 +139,11 @@ export default function ShippingDetails() {
       });
   }
 
-  if (loading) return <div className="p-8">Loading...</div>;
+  if (loading) return(
+          <div className="flex justify-center items-center relative h-[60vh] w-[80vw]">
+            <div className="animate-spin rounded-full h-13 w-13 border-t-3 border-b-3 border-[#73C322]"></div>
+          </div>
+        )
   if (error) return <div className="p-8 text-red-500">{error}</div>;
   if (!parcel) return <div className="p-8">No shipment found.</div>;
 

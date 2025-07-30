@@ -80,13 +80,15 @@ const Admin_AuthForm = () => {
       })
       .then((data) => {
         if (authType === "login") {
-          alert("Logged in successfully!");
-          navigate("/admin");
+          setSuccessMsg("Logged in successfully!");
+          setTimeout(() => {
+            navigate("/admin");
+          }, 1500);
         } else {
           setSuccessMsg("Account created successfully!");
           setTimeout(() => {
             setAuthType("login");
-            setSuccessMsg("");
+            setSuccessMsg("Logged in successfully!");
           }, 1500);
         }
       })

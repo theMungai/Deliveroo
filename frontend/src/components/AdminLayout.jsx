@@ -1,24 +1,24 @@
-import React from 'react'
-import AdminTopBar from './common/AdminTopBar';
-import AdminSidebar from './AdminSidebar';
-import Footer from './common/Footer';
+import React from "react";
+import AdminTopBar from "./common/AdminTopBar";
+import AdminSidebar from "./AdminSidebar";
+import Footer from "./common/Footer";
 
-const AdminLayout = ({children}) => {
+const AdminLayout = ({ children }) => {
   return (
     <>
-      <div className="flex w-full p-0">
-        <AdminSidebar />
+      <div className="flex flex-col md:flex-row w-full h-screen">
+        <aside className="w-full basis-[10%]">
+          <AdminSidebar />
+        </aside>
 
-        <div className="basis-[84%]">
+        <main className="w-full basis-[90%] overflow-y-auto">
           <AdminTopBar />
-          {children}
-          
-        </div>
-        
+          <div className="p-4">{children}</div>
+          <Footer />
+        </main>
       </div>
-      <Footer/>
     </>
   );
-}
+};
 
-export default AdminLayout
+export default AdminLayout;

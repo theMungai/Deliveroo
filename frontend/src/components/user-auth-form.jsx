@@ -81,14 +81,17 @@ const AuthForm = () => {
         if (authType === "login") {
           if (data.access_token) {
             localStorage.setItem("token", data.access_token);
+            setSuccessMsg("Logged in successfully!");
+            setTimeout(() => {
+            navigate("/dashboard");
+          }, 1500);
           }
-          alert("Logged in successfully!");
-          navigate("/dashboard");
+          
         } else {
           setSuccessMsg("Account created successfully!");
           setTimeout(() => {
             setAuthType("login");
-            setSuccessMsg("");
+            setSuccessMsg("Logged in successfully!");
           }, 1500);
         }
       })
