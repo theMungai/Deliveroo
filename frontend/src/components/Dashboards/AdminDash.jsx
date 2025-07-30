@@ -109,7 +109,7 @@ function AdminDash() {
         {/* Loader and Error */}
         {loading && (
           <div className="flex justify-center items-center relative h-[60vh] w-full">
-            <div className="animate-spin rounded-full h-13 w-13 border-t-4 border-b-4 border-[#73C322]"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-[#73C322]"></div>
           </div>
         )}
         {error && <div className="text-red-500">{error}</div>}
@@ -243,6 +243,7 @@ function AdminDash() {
                 <option>Canceled</option>
                 <option>Pending</option>
               </select>
+            </label>
             <div className="flex justify-end gap-3">
               <button
                 className="bg-gray-200 px-4 py-2 rounded"
