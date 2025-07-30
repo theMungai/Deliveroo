@@ -243,14 +243,6 @@ function AdminDash() {
                 <option>Canceled</option>
                 <option>Pending</option>
               </select>
-            </label>
-            <label className="block mb-4">
-              <span className="text-sm text-gray-700">Delivery date</span>
-              <input
-                type="date"
-                className="block w-full border border-[#d4d4d4cb] p-3 mt-1 mb-3 rounded-md"
-              />
-            </label>
             <div className="flex justify-end gap-3">
               <button
                 className="bg-gray-200 px-4 py-2 rounded"
