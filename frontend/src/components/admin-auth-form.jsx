@@ -80,15 +80,30 @@ const Admin_AuthForm = () => {
       })
       .then((data) => {
         if (authType === "login") {
-          setSuccessMsg("Logged in successfully!");
-          setTimeout(() => {
-            navigate("/admin");
-          }, 1500);
+          // ✅ Send OTP after login
+          fetch("https://deliveroo-yptw.onrender.com/auth/send-otp", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: formData.email }),
+          })
+            .then((res) => {
+              if (!res.ok) throw new Error("OTP sending failed");
+              return res.json();
+            })
+            .then(() => {
+              setSuccessMsg("OTP sent successfully!");
+              setTimeout(() => {
+                navigate("/verify-otp");
+              }, 1500);
+            })
+            .catch(() => {
+              setErrors({ email: "Failed to send OTP. Try again." });
+            });
         } else {
           setSuccessMsg("Account created successfully!");
           setTimeout(() => {
             setAuthType("login");
-            setSuccessMsg("Logged in successfully!");
+            setSuccessMsg("");
           }, 1500);
         }
       })

@@ -16,7 +16,7 @@ class AdminLogin(BaseModel):
 class AdminOut(AdminBase):
     id: int
     created_at: datetime
-    is_active: bool
+    verified: bool
 
     class Config:
         from_attributes = True

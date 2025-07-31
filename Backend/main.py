@@ -12,7 +12,7 @@ def create_app() -> FastAPI:
 
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],
+        allow_origins=["http://localhost:5173", "https://deliveroo-three.vercel.app/"],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -20,7 +20,7 @@ def create_app() -> FastAPI:
 
     app.include_router(users.router)
     app.include_router(parcels.router)
-    app.include_router(auth.router) 
+    app.include_router(auth.router, prefix="/auth") 
     app.include_router(admins.router)
     app.include_router(weight_categories.router)
 

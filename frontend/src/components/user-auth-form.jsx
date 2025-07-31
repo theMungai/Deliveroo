@@ -81,12 +81,31 @@ const AuthForm = () => {
         if (authType === "login") {
           if (data.access_token) {
             localStorage.setItem("token", data.access_token);
-            setSuccessMsg("Logged in successfully!");
-            setTimeout(() => {
-            navigate("/dashboard");
-          }, 1500);
+            localStorage.setItem("userEmail", formData.email); // save email for OTP
+
+            // ✅ Send OTP
+            fetch("https://deliveroo-yptw.onrender.com/auth/send-otp", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email: formData.email }),
+            })
+              .then((res) => {
+                if (!res.ok) throw new Error("Failed to send OTP");
+                return res.json();
+              })
+              .then(() => {
+                setSuccessMsg("OTP sent successfully!");
+                setTimeout(() => {
+                  navigate("/verify-otp");
+                }, 1000);
+              })
+              .catch((err) => {
+                console.error("OTP error:", err);
+                setErrors({ email: "Failed to send OTP. Try again." });
+              });
           }
-          
         } else {
           setSuccessMsg("Account created successfully!");
           setTimeout(() => {
@@ -132,6 +151,7 @@ const AuthForm = () => {
           </p>
         </div>
 
+        {/* Toggle Login/Signup */}
         <div className="relative flex mb-4 bg-gray-100 p-1 rounded-lg">
           <div
             className={`absolute top-1 bottom-1 w-1/2 rounded-[5px] bg-white shadow transition-transform duration-300 ease-in-out ${
@@ -184,7 +204,9 @@ const AuthForm = () => {
                   } rounded-md px-3 py-2 text-sm`}
                 />
                 {errors.lastName && (
-                  <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.lastName}
+                  </p>
                 )}
               </div>
             </div>

@@ -12,6 +12,6 @@ class Admin(Base):
     last_name =  Column(String, nullable=False)
     password = Column(String, nullable=False)
     created_at = Column(DateTime, default=func.now(), nullable=False)
-    is_active = Column(Boolean, default=True, nullable=False)
+    verified = Column(Boolean, default=False, nullable=False)
 
     status_history_entries = relationship("ParcelStatusHistory", back_populates="admin", cascade="all, delete-orphan")

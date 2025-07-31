@@ -11,7 +11,7 @@ class User(Base):
     last_name =  Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
-    is_active = Column(Boolean, default=True, nullable=False)
+    verified = Column(Boolean, default=False, nullable=False)
     created_at = Column(DateTime, default=func.now(), nullable=False)
 
 

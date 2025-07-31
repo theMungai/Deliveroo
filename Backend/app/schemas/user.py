@@ -20,7 +20,7 @@ class Token(BaseModel):
     token_type: str
 
 class UserOut(UserBase):
-    is_active: bool
+    verified: bool
     created_at: datetime
 
     model_config: ConfigDict = ConfigDict(from_attributes=True)
