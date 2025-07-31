@@ -15,9 +15,9 @@ function Navbar() {
     { to: "contact-us", label: "Contact Us" },
   ];
 
-  const navItem = navItems.map((item) => (
+  const navItem = navItems.map((item, index) => (
     <li
-      key={item}
+      key={index}
       className="lg:mr-6 xl:mr-3 2xl:mr-6 max-xs:mb-6 xs:mb-6 sm:mb-8 md:mb-8 lg:mb-2 cursor-pointer relative after:content-[''] after:absolute after:left-0 after:bottom-[-5px] hover:text-[#73C322]
                     after:h-[3px] after:rounded-[7px] after:w-0 after:bg-[#73C322]
                     hover:after:w-full focus:after:w-full

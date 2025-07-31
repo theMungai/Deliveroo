@@ -23,8 +23,8 @@ const Footer = () => {
     },
   ];
 
-  const address = addresses.map((item) => (
-    <li key={item} className="flex items-center gap-x-3 text-white mt-2">
+  const address = addresses.map((item, index) => (
+    <li key={index} className="flex items-center gap-x-3 text-white mt-2">
       {item.icon}
       <span className="text-[#FFFFFFC2] text-[14px]">{item.label}</span>
     </li>
@@ -37,9 +37,9 @@ const Footer = () => {
   ];
 
 
-  const quickLink = quickLinks.map((item) => (
+  const quickLink = quickLinks.map((item, index) => (
     <li
-      key={item}
+      key={index}
       className="text-[14px] text-[#FFFFFFB8] hover:text-[#73C322B8] hover:underline cursor-pointer mb-2"
     >
       <ScrollLink to={item.to} smooth={true} duration={800} offset={-225}>
