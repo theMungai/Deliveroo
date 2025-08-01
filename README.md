@@ -315,4 +315,10 @@ MIT License. See LICENSE.
     - Leaflet.js for interactive maps.
     - Tailwind CSS for effortless styling.
 
-# Deliveroo © 2024 - Modern Parcel Delivery Management.
+# Contributors
+    - Presbury Wamae
+    - Newton Muhindi
+    - Nicholas Mwangi
+    - Simon Mungai
+
+# Deliveroo © 2025 - Modern Parcel Delivery Management.
