@@ -6,9 +6,25 @@ import { useEffect } from "react";
 import L from "leaflet";
 import "leaflet-routing-machine";
 
-// =======================
+// ✅ Use your own marker icon instead of Leaflet's default (which breaks on deploy)
+import markerIcon from "../assets/location.png"; // ✅ your custom icon
+
+// =============================
+// ✅ Set Custom Icon Globally
+// =============================
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconUrl: markerIcon,
+  iconRetinaUrl: markerIcon,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+});
+
+// =============================
 // ✅ Routing Component
-// =======================
+// =============================
 const Routing = ({ from, to }) => {
   const map = useMap();
 
@@ -36,9 +52,9 @@ const Routing = ({ from, to }) => {
   return null;
 };
 
-// =======================
+// =============================
 // ✅ Label Icon Generator
-// =======================
+// =============================
 const labelIcon = (labelText, color = "bg-blue-600") =>
   L.divIcon({
     className: "",
@@ -51,9 +67,9 @@ const labelIcon = (labelText, color = "bg-blue-600") =>
     iconAnchor: [50, 15],
   });
 
-// =======================
-// ✅ Bouncing Icon
-// =======================
+// =============================
+// ✅ Animated Dot Icon
+// =============================
 const bouncingIcon = L.divIcon({
   className: "",
   html: `
@@ -63,9 +79,9 @@ const bouncingIcon = L.divIcon({
   iconAnchor: [10, 10],
 });
 
-// =======================
-// ✅ Main Map Component
-// =======================
+// =============================
+// ✅ Main Component
+// =============================
 function ParcelMarker({ parcel }) {
   const parcelLocation =
     parcel?.pickup_lat !== undefined && parcel?.pickup_lng !== undefined
@@ -85,21 +101,21 @@ function ParcelMarker({ parcel }) {
       style={{ height: "100%", width: "100%" }}
       className="z-0 rounded-xl"
     >
-      {/* 🗺️ Map Tiles */}
+      {/* 🗺️ Map Base Layer */}
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {/* 📍 Pickup Label & Animated Marker */}
+      {/* 📍 Pickup */}
       <Marker position={parcelLocation} icon={labelIcon("Pickup", "bg-emerald-600")} />
       <Marker position={parcelLocation} icon={bouncingIcon} />
 
-      {/* 🎯 Destination Label & Animated Marker */}
+      {/* 🎯 Destination */}
       <Marker position={destination} icon={labelIcon("Destination", "bg-orange-600")} />
       <Marker position={destination} icon={bouncingIcon} />
 
-      {/* 🚗 Route Line */}
+      {/* 🚗 Routing Line */}
       <Routing from={parcelLocation} to={destination} />
     </MapContainer>
   );
