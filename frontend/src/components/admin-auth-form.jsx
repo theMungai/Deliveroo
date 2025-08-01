@@ -7,6 +7,8 @@ const Admin_AuthForm = () => {
   const navigate = useNavigate();
   const [successMsg, setSuccessMsg] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showCPassword, setShowCPassword] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -14,7 +16,6 @@ const Admin_AuthForm = () => {
     password: "",
     cpassword: "",
   });
-
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
@@ -80,7 +81,6 @@ const Admin_AuthForm = () => {
       })
       .then((data) => {
         if (authType === "login") {
-          // ✅ Send OTP after login
           fetch("https://deliveroo-yptw.onrender.com/auth/send-otp", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -151,7 +151,10 @@ const Admin_AuthForm = () => {
           {["login", "signup"].map((type) => (
             <button
               key={type}
-              onClick={() => setAuthType(type)}
+              onClick={() => {
+                setAuthType(type);
+                setSuccessMsg("");
+              }}
               className={`w-1/2 z-10 py-2 text-sm font-medium transition-colors duration-300 ${
                 authType === type ? "text-slate-900" : "text-slate-500"
               }`}
@@ -215,34 +218,50 @@ const Admin_AuthForm = () => {
             )}
           </div>
 
-          <div>
+          {/* Password Field */}
+          <div className="relative">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               placeholder="Password"
               value={formData.password}
               onChange={handleChange}
-              className={`w-full border outline-0 ${
+              className={`w-full border outline-0 pr-10 ${
                 errors.password ? "border-red-500" : "border-gray-300"
               } rounded-md px-3 py-2 text-sm`}
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-600"
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
             {errors.password && (
               <p className="text-red-500 text-xs mt-1">{errors.password}</p>
             )}
           </div>
 
+          {/* Confirm Password */}
           {authType === "signup" && (
-            <div>
+            <div className="relative">
               <input
-                type="password"
+                type={showCPassword ? "text" : "password"}
                 name="cpassword"
                 placeholder="Confirm Password"
                 value={formData.cpassword}
                 onChange={handleChange}
-                className={`w-full border outline-0 ${
+                className={`w-full border outline-0 pr-10 ${
                   errors.cpassword ? "border-red-500" : "border-gray-300"
                 } rounded-md px-3 py-2 text-sm`}
               />
+              <button
+                type="button"
+                onClick={() => setShowCPassword((prev) => !prev)}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-gray-600"
+              >
+                {showCPassword ? "Hide" : "Show"}
+              </button>
               {errors.cpassword && (
                 <p className="text-red-500 text-xs mt-1">{errors.cpassword}</p>
               )}
@@ -252,7 +271,7 @@ const Admin_AuthForm = () => {
           <button
             type="submit"
             className="w-full py-2 px-4 rounded-md bg-lime-500 text-white text-sm font-semibold hover:bg-lime-600 flex items-center justify-center gap-2 disabled:opacity-60"
-            disabled={!!successMsg || loading}
+            disabled={loading}
           >
             {loading && (
               <span className="animate-spin inline-block h-4 w-4 border-[2px] border-white border-t-transparent rounded-full"></span>
