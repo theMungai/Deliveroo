@@ -22,12 +22,6 @@ const customIcon = new Icon({
 });
 
 
-// ========================
-// 3. Sample Markers for Testing
-// ========================
-const markers = [
-
-];
 
 // ========================
 // 4. Routing Component
@@ -89,22 +83,10 @@ function ParcelMarker({ parcel }) {
       <Routing from={parcelLocation} to={destination} />
 
       {/* Markers for pickup and destination */}
-      <Marker position={parcelLocation} icon={customIcon}>
+      {/* <Marker position={parcelLocation} icon={customIcon}>
         <Popup>Origin</Popup>
-      </Marker>
-      <Marker position={destination} icon={customIcon}>
-        <Popup>Destination</Popup>
-      </Marker>
+      </Marker> */}
 
-      {markers.map((marker, index) => (
-        <Marker
-          key={`marker-${index}`}
-          position={marker.geocode}
-          icon={customIcon}
-        >
-          <Popup>{marker.popUp}</Popup>
-        </Marker>
-      ))}
     </MapContainer>
   );
 }
