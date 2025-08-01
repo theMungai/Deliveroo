@@ -4,7 +4,7 @@ import { faArrowRight, faCube, faTruck, faCheckCircle, faUpload } from '@fortawe
 
 function ProfileCard() {
   const fileInputRef = useRef(null);
-  const [profileImage, setProfileImage] = useState('https://upload.wikimedia.org/wikipedia/en/5/5f/Original_Doge_meme.jpg');
+  const [profileImage, setProfileImage] = useState('https://i.pinimg.com/736x/15/0f/a8/150fa8800b0a0d5633abc1d1c4db3d87.jpg');
   const [user, setUser] = useState({ first_name: '', last_name: '', email: '' });
   const [stats, setStats] = useState({ total: 0, inTransit: 0, delivered: 0 });
   const [recentOrders, setRecentOrders] = useState([]);

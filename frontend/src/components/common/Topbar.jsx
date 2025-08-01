@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 function Topbar({ onToggleSidebar }) {
   const [isOpen, setIsOpen] = useState(false);
   const [profileImage, setProfileImage] = useState(
-    "https://upload.wikimedia.org/wikipedia/en/5/5f/Original_Doge_meme.jpg"
+    "https://i.pinimg.com/736x/15/0f/a8/150fa8800b0a0d5633abc1d1c4db3d87.jpg"
   );
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
