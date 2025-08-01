@@ -1,31 +1,14 @@
-// import "./styles.css";
-import "leaflet/dist/leaflet.css";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
-
-// import MarkerClusterGroup from "react-leaflet-cluster";
-import MapPin from "../assets/LocationPin.png";
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 
+import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import { useEffect } from "react";
+import L from "leaflet";
+import "leaflet-routing-machine";
 
-import L, { Icon} from "leaflet";
-import "leaflet-routing-machine"; // must come AFTER importing 'L'
-
-
-// ========================
-// 1. Custom Marker Icon
-// ========================
-const customIcon = new Icon({
-  iconUrl: MapPin,
-  iconSize: [38, 38],
-});
-
-
-
-// ========================
-// 4. Routing Component
-// ========================
+// =======================
+// ✅ Routing Component
+// =======================
 const Routing = ({ from, to }) => {
   const map = useMap();
 
@@ -53,40 +36,71 @@ const Routing = ({ from, to }) => {
   return null;
 };
 
-// ========================
-// 5. Main Component
-// ========================
+// =======================
+// ✅ Label Icon Generator
+// =======================
+const labelIcon = (labelText, color = "bg-blue-600") =>
+  L.divIcon({
+    className: "",
+    html: `
+      <div class="px-3 py-1 rounded-lg text-white text-xs font-semibold shadow-md ${color}">
+        ${labelText}
+      </div>
+    `,
+    iconSize: [100, 30],
+    iconAnchor: [50, 15],
+  });
+
+// =======================
+// ✅ Bouncing Icon
+// =======================
+const bouncingIcon = L.divIcon({
+  className: "",
+  html: `
+    <div class="animate-bounce w-5 h-5 bg-blue-500 rounded-full shadow-lg ring-2 ring-white"></div>
+  `,
+  iconSize: [20, 20],
+  iconAnchor: [10, 10],
+});
+
+// =======================
+// ✅ Main Map Component
+// =======================
 function ParcelMarker({ parcel }) {
-  // Use coordinates from parcel prop if available
-  const parcelLocation = (parcel?.pickup_lat !== undefined && parcel?.pickup_lng !== undefined)
-    ? [parcel.pickup_lat, parcel.pickup_lng]
-    : [-1.127758, 36.939684];
-  const destination = (parcel?.destination_lat !== undefined && parcel?.destination_lng !== undefined)
-    ? [parcel.destination_lat, parcel.destination_lng]
-    : [-0.102206, 34.761711];
+  const parcelLocation =
+    parcel?.pickup_lat !== undefined && parcel?.pickup_lng !== undefined
+      ? [parcel.pickup_lat, parcel.pickup_lng]
+      : [-1.127758, 36.939684];
+
+  const destination =
+    parcel?.destination_lat !== undefined && parcel?.destination_lng !== undefined
+      ? [parcel.destination_lat, parcel.destination_lng]
+      : [-0.102206, 34.761711];
 
   return (
     <MapContainer
       center={parcelLocation}
-      zoom={13}
+      zoom={7}
       scrollWheelZoom={true}
       style={{ height: "100%", width: "100%" }}
-      className="z-0"
+      className="z-0 rounded-xl"
     >
-      {/* Base Map Tiles */}
+      {/* 🗺️ Map Tiles */}
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {/* Route Line */}
+      {/* 📍 Pickup Label & Animated Marker */}
+      <Marker position={parcelLocation} icon={labelIcon("Pickup", "bg-emerald-600")} />
+      <Marker position={parcelLocation} icon={bouncingIcon} />
+
+      {/* 🎯 Destination Label & Animated Marker */}
+      <Marker position={destination} icon={labelIcon("Destination", "bg-orange-600")} />
+      <Marker position={destination} icon={bouncingIcon} />
+
+      {/* 🚗 Route Line */}
       <Routing from={parcelLocation} to={destination} />
-
-      {/* Markers for pickup and destination */}
-      {/* <Marker position={parcelLocation} icon={customIcon}>
-        <Popup>Origin</Popup>
-      </Marker> */}
-
     </MapContainer>
   );
 }
